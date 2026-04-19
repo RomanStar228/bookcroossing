@@ -23,4 +23,13 @@ Route::get('/search-books', function () {
     return view('search-books');   // ← вот здесь проблема
 })->name('search-books');   // или без name, но middleware auth + verified
 
+// === Книги ===
+Route::middleware('auth')->group(function () {
+    Route::get('/books/create', [App\Http\Controllers\BookController::class, 'create'])
+         ->name('books.create');
+    
+    Route::post('/books', [App\Http\Controllers\BookController::class, 'store'])
+         ->name('books.store');
+});
+
 require __DIR__.'/auth.php';
