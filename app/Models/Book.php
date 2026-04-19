@@ -19,28 +19,24 @@ class Book extends Model
         'cover_image_url',
         'status',
         'city_id',
+        'location',        // новое поле
         'condition',
         'is_public',
     ];
 
-    // Связи согласно ТЗ
+    // Связи
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
     }
 
+    public function genre()
+    {
+        return $this->belongsTo(Genre::class);
+    }
+
     public function city()
     {
         return $this->belongsTo(City::class);
-    }
-
-    public function genre()
-    {
-        return $this->belongsTo(Genre::class); // позже создадим
-    }
-
-    public function exchangeRequests()
-    {
-        return $this->hasMany(ExchangeRequest::class);
     }
 }

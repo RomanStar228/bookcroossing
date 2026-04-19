@@ -7,61 +7,79 @@
         <div class="max-w-2xl mx-auto px-6">
             <div class="bg-white border border-[#e3e3e0] rounded-3xl p-10">
 
+                @if (session('success'))
+                    <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-2xl">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
                 <form method="POST" action="{{ route('books.store') }}" enctype="multipart/form-data">
                     @csrf
 
                     <div class="space-y-8">
 
-                        <!-- Название -->
                         <div>
                             <label class="block text-sm font-medium text-[#706f6c] mb-2">Название книги *</label>
                             <input type="text" name="title" required
                                    class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none">
                         </div>
 
-                        <!-- Автор -->
                         <div>
                             <label class="block text-sm font-medium text-[#706f6c] mb-2">Автор *</label>
                             <input type="text" name="author" required
                                    class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none">
                         </div>
 
-                        <!-- Жанр + Год -->
                         <div class="grid grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-[#706f6c] mb-2">Жанр</label>
                                 <select name="genre_id" class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none">
-                                    <option value="">Выберите жанр</option>
-                                    <!-- позже заполним из БД -->
+                                    <option value="">Не указан</option>
+                                    @foreach ($genres as $genre)
+                                        <option value="{{ $genre->id }}">{{ $genre->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
+
                             <div>
                                 <label class="block text-sm font-medium text-[#706f6c] mb-2">Год издания</label>
-                                <input type="number" name="year" 
+                                <input type="number" name="year" min="1800" max="{{ date('Y') }}"
                                        class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none">
                             </div>
+                        </div>
+
+                        <!-- Город -->
+                        <div>
+                            <label class="block text-sm font-medium text-[#706f6c] mb-2">Город</label>
+                            <select name="city_id" class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none">
+                                @foreach ($cities as $city)
+                                    <option value="{{ $city->id }}" 
+                                        {{ old('city_id', Auth::user()->city_id) == $city->id ? 'selected' : '' }}>
+                                        {{ $city->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Место (где спрятана книга) -->
+                        <div>
+                            <label class="block text-sm font-medium text-[#706f6c] mb-2">Где находится книга (улица) *</label>
+                            <textarea name="location" rows="3" required placeholder="Например:Улица Богдана Хмельницкого дом 36"
+                                class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none resize-y"></textarea>
+                        </div>
+
+                        <!-- Описание -->
+                        <div>
+                            <label class="block text-sm font-medium text-[#706f6c] mb-2">Описание книги</label>
+                            <textarea name="description" rows="4" placeholder="Например: под скамейкой в парке Победы, возле кафе 'Книга' и т.д."
+                                class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none resize-y"></textarea>
+                                <p class="text-xs text-[#acaaa3] mt-1">Опишите точное место, чтобы другой пользователь легко нашёл книгу</p>
                         </div>
 
                         <!-- Обложка -->
                         <div>
                             <label class="block text-sm font-medium text-[#706f6c] mb-2">Обложка книги</label>
                             <input type="file" name="cover_image" accept="image/*"
-                                   class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none">
-                        </div>
-
-                        <!-- Статус -->
-                        <div>
-                            <label class="block text-sm font-medium text-[#706f6c] mb-2">Статус книги</label>
-                            <select name="status" class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none">
-                                <option value="Отдаю">Отдаю (готов к обмену)</option>
-                                <option value="Ищу">Ищу</option>
-                            </select>
-                        </div>
-
-                        <!-- Город -->
-                        <div>
-                            <label class="block text-sm font-medium text-[#706f6c] mb-2">Город</label>
-                            <input type="text" name="city" value="{{ Auth::user()->city ?? 'Челябинск' }}"
                                    class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none">
                         </div>
 
@@ -78,7 +96,6 @@
                         </div>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
