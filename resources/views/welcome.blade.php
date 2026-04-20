@@ -28,7 +28,7 @@
 
                 <!-- Логотип -->
                 <div class="flex items-center">
-                    <img class=" w-[140px]" src="/img/logo3.svg" alt="Logo" class="h-8">
+                    <img class=" w-[140px]" src="img/logo_1.svg" alt="Logo" class="h-8">
                 </div>
 
                 <!-- Меню -->
@@ -82,7 +82,7 @@
 
                     <!-- Левый блок с текстом -->
                     <div class="w-full lg:w-1/2 max-w-[529px] text-center lg:text-left">
-                        <img src="/img/logo3.svg" alt="Logo" class="mx-auto lg:mx-0">
+                        <img src="/img/logo_2.svg" alt="Logo" class="mx-auto lg:mx-0">
 
                         <div class="text-[16px]  mt-8 text-[#acaaa3] leading-[220%]">
                             ПЛАТФОРМА ДЛЯ ЛЮБИТЕЛЕЙ КНИГ, КОТОРАЯ ПОЗВОЛИТ ПОЛЬЗОВАТЕЛЯМ НАХОДИТЬ, 
@@ -93,7 +93,7 @@
                         <div class="mt-12">
                             <a href="#" 
                                class="inline-flex items-center justify-center bg-white border border-gray-300 
-                                      px-9 py-2 text-black font-garamond text-lg w-[251px] h-[61px]
+                                      px-9 py-2 text-black  text-lg w-[251px] h-[61px]
                                       hover:bg-gray-100 active:bg-gray-300 transition-colors">
                                 НАЧАТЬ ПОИСК
                             </a>
@@ -144,7 +144,7 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-y-10">
             <!-- Логотип -->
             <div class="md:col-span-4">
-                <img class="" src="/img/logo3.svg" alt="WildPages" class="h-10">
+                <img class="" src="/img/logo_2.svg" alt="WildPages" class="h-10">
             </div>
             <!-- Колонка 1: О Нас -->
             <div class="md:col-span-2">

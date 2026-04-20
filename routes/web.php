@@ -18,10 +18,9 @@ Route::middleware('auth')->group(function () {
 });
 
 
-// Поиск книг
-Route::get('/search-books', function () {
-    return view('search-books');   // ← вот здесь проблема
-})->name('search-books');   // или без name, но middleware auth + verified
+// Поиск книг (правильный вариант)
+Route::get('/search-books', [App\Http\Controllers\BookController::class, 'search'])
+     ->name('search-books');
 
 // === Книги ===
 Route::middleware('auth')->group(function () {

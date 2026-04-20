@@ -63,14 +63,29 @@
 
                         <!-- Место (где спрятана книга) -->
                         <div>
-                            <label class="block text-sm font-medium text-[#706f6c] mb-2">Где находится книга (улица) *</label>
-                            <textarea name="location" rows="3" required placeholder="Например:Улица Богдана Хмельницкого дом 36"
-                                class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none resize-y"></textarea>
-                        </div>
+                            <label class="block text-sm font-medium text-[#706f6c] mb-2">
+                               Где находится книга *
+                            </label>
+    
+                        <div class="relative">
+                         <div class="absolute left-6 top-4 text-[#acaaa3] pointer-events-none select-none">
+                              ул.
+                         </div>
+
+                            <textarea name="location" id="location" rows="2"  maxlength="30" required  placeholder="Богдана Хмельницкого" class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-14 py-4 focus:outline-none resize-none" oninput="this.value = this.value.replace(/^ул\.\s*/, '');">
+                            </textarea>
+                    </div>
+    
+                    <div class="flex justify-end text-xs mt-2">
+                         <span id="location-counter" class="font-medium text-[#706f6c]">
+                            0 / 20
+                         </span>
+                    </div>
+                </div>
 
                         <!-- Описание -->
                         <div>
-                            <label class="block text-sm font-medium text-[#706f6c] mb-2">Описание книги</label>
+                            <label class="block text-sm font-medium text-[#706f6c] mb-2">Описание места</label>
                             <textarea name="description" rows="4" placeholder="Например: под скамейкой в парке Победы, возле кафе 'Книга' и т.д."
                                 class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none resize-y"></textarea>
                                 <p class="text-xs text-[#acaaa3] mt-1">Опишите точное место, чтобы другой пользователь легко нашёл книгу</p>
@@ -100,3 +115,30 @@
         </div>
     </div>
 </x-app-layout>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const textarea = document.getElementById('location');
+    const counter = document.getElementById('location-counter');
+
+    function updateCounter() {
+        let text = textarea.value.trim();
+        
+        // Ограничение ровно 20 символов
+        if (text.length > 30) {
+            textarea.value = text.substring(0, 30);
+        }
+        
+        counter.textContent = `${textarea.value.length} / 30`;
+        
+        // Визуальная подсветка
+        if (textarea.value.length >= 25) {
+            counter.classList.add('text-orange-600');
+        } else {
+            counter.classList.remove('text-orange-600');
+        }
+    }
+
+    textarea.addEventListener('input', updateCounter);
+    updateCounter(); // инициализация
+});
+</script>

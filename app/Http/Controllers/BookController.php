@@ -74,4 +74,51 @@ class BookController extends Controller
         return redirect()->route('dashboard')
                          ->with('success', 'Книга успешно добавлена в ваш профиль!');
     }
+
+  /**
+ * Страница поиска книг (публичная)
+ */
+/**
+ * Страница поиска книг (с фильтрами)
+ */
+public function search(Request $request)
+{
+    $cities = City::orderBy('name')->get();
+
+    $query = Book::where('is_public', true)
+                 ->with(['genre', 'city', 'owner']);
+
+    // Фильтрация по городу
+    if ($request->filled('city_id')) {
+        $query->where('city_id', $request->city_id);
+    }
+
+    // Поиск по названию или автору
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('title', 'LIKE', "%{$search}%")
+              ->orWhere('author', 'LIKE', "%{$search}%");
+        });
+    }
+
+    $books = $query->latest()->get();
+
+    return view('search-books', compact('books', 'cities'));
+}
+
+/**
+ * Страница поиска книг ДЛЯ АДМИНИСТРАТОРА
+ * Админ видит ВСЕ книги и может их удалять
+ */
+public function adminSearch()
+{
+    $cities = City::orderBy('name')->get();
+
+    $books = Book::with(['genre', 'city', 'owner'])
+                 ->latest()
+                 ->get();   // Админ видит абсолютно все книги
+
+    return view('search-books', compact('books', 'cities'));
+}
 }

@@ -110,12 +110,12 @@
 
                                     <div class="mt-5 pt-5 border-t border-[#e3e3e0] text-sm">
                                         <div class="flex items-center gap-2 text-[#706f6c]">
-                                            <span>📍</span>
+                                            <span><img class="w-[18px]" src="img/point.png" alt=""></span>
                                             <span>{{ $book->city?->name ?? 'Не указан' }}</span>
                                         </div>
                                         @if ($book->location)
                                             <div class="mt-2 text-xs text-[#acaaa3] line-clamp-2">
-                                                {{ $book->location }}
+                                               ул.  {{ $book->location }}
                                             </div>
                                         @endif
                                     </div>

@@ -36,6 +36,6 @@ class CitySeeder extends Seeder
             City::firstOrCreate(['name' => $cityName]);
         }
 
-        echo "✅ Добавлено " . count($cities) . " городов\n";
+        echo "Добавлено " . count($cities) . " городов\n";
     }
 }
