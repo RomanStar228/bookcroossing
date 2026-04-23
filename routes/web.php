@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
 
 Route::get('/', function () {
     return view('welcome')->with('success', 'User created successfully!');
@@ -30,5 +31,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/books', [App\Http\Controllers\BookController::class, 'store'])
          ->name('books.store');
 });
+
+
+Route::get('/book/{book}', [BookController::class, 'show'])
+    ->name('book.show');
 
 require __DIR__.'/auth.php';

@@ -76,7 +76,7 @@
     <!-- Основной контент -->
     <main>
         <!-- Секция главной страницы -->
-        <section id="home" class="pt-12">
+        <section id="home" class="pt-12 ">
             <div class="flex justify-center items-center py-12">
                 <div class="flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-16 max-w-7xl mx-auto px-6">
 
@@ -139,11 +139,11 @@
                 </div>
             </div>
     </main>
-   <footer class="bg-white pt-12 mt-[100px] pb-10">
+   <footer class="bg-white pt-12 mt-[100px] mb-[100px] pb-10">
     <div class="max-w-7xl mx-auto px-6">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-y-10">
             <!-- Логотип -->
-            <div class="md:col-span-4">
+            <div class="md:col-span-4 mr-[30%]">
                 <img class="" src="/img/logo_2.svg" alt="WildPages" class="h-10">
             </div>
             <!-- Колонка 1: О Нас -->
@@ -195,12 +195,7 @@
             </div>
 
         </div>
-
-        <!-- Нижняя линия (по желанию) -->
-        <div class="border-t border-gray-200 mt-12 pt-6 text-center text-xs text-[#706f6c]">
-        </div>
     </div>
 </footer>
-
 </body>
 </html>

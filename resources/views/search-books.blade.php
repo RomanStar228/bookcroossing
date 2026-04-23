@@ -100,76 +100,97 @@
                     </div>
                 </div>
             </form>
+<!-- Список книг -->
+<div>
+    <h2 class="text-2xl font-semibold text-[#1b1b18] mb-6">
+        Найденные книги 
+        <span class="text-base font-normal text-[#706f6c]">
+            ({{ $books->count() }})
+        </span>
+    </h2>
 
-            <!-- Список книг -->
-            <div>
-                <h2 class="text-2xl font-semibold text-[#1b1b18] mb-6">
-                    Найденные книги <span class="text-base font-normal text-[#706f6c]">({{ $books->count() }})</span>
-                </h2>
+    @if ($books->isEmpty())
+        <div class="text-center py-20 bg-white border border-dashed border-[#e3e3e0] rounded-3xl">
+            <p class="text-[#706f6c] text-lg">По вашему запросу ничего не найдено</p>
+        </div>
+    @else
 
-                @if ($books->isEmpty())
-                    <div class="text-center py-20 bg-white border border-dashed border-[#e3e3e0] rounded-3xl">
-                        <p class="text-[#706f6c] text-lg">По вашему запросу ничего не найдено</p>
-                    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+        @foreach ($books as $book)
+
+        <!-- 🔥 КАРТОЧКА КНИГИ = ССЫЛКА -->
+        <a href="{{ route('book.show', $book->id) }}"
+           class="bg-white border border-[#e3e3e0] rounded-3xl overflow-hidden hover:shadow-lg transition-all group block">
+
+            <!-- Обложка -->
+            <div class="aspect-[4/3] bg-[#EDEBE4] relative">
+
+                @if ($book->cover_image_url)
+                    <img src="{{ $book->cover_image_url }}"
+                         alt="{{ $book->title }}"
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform">
                 @else
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        @foreach ($books as $book)
-                            <div class="bg-white border border-[#e3e3e0] rounded-3xl overflow-hidden hover:shadow-lg transition-all group">
-                                
-                                <!-- Обложка -->
-                                <div class="aspect-[4/3] bg-[#EDEBE4] relative">
-                                    @if ($book->cover_image_url)
-                                        <img src="{{ $book->cover_image_url }}" 
-                                             alt="{{ $book->title }}" 
-                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform">
-                                    @else
-                                        <div class="w-full h-full flex items-center justify-center text-7xl">📖</div>
-                                    @endif
-
-                                    <div class="absolute top-4 right-4 bg-[#1b1b18] text-white text-xs font-medium px-4 py-1.5 rounded-2xl">
-                                        {{ $book->status }}
-                                    </div>
-                                </div>
-
-                                <!-- Информация о книге -->
-                                <div class="p-5">
-                                    <h3 class="font-semibold text-lg leading-tight line-clamp-2">{{ $book->title }}</h3>
-                                    <p class="text-[#706f6c]">{{ $book->author }}</p>
-
-                                    @if ($book->genre)
-                                        <span class="mt-3 inline-block bg-[#EDEBE4] text-xs px-3 py-1 rounded-full">
-                                            {{ $book->genre->name }}
-                                        </span>
-                                    @endif
-
-                                    <!-- Город -->
-                                    <div class="mt-4 text-sm text-[#706f6c]">
-                                      <span class="font-medium flex"> <img class="w-[18px] mr-2" src="img/point.png" alt=""> {{ $book->city?->name ?? 'Не указан' }}</span>
-                                    </div>
-
-                                    <!-- Владелец и рейтинг -->
-                                    <div class="mt-6 pt-5 border-t border-[#e3e3e0] flex items-center justify-between text-sm">
-                                        <div>
-                                            от <span class="font-medium text-[#1b1b18]">
-                                                {{ $book->owner->username ?? $book->owner->full_name ?? 'Пользователь' }}
-                                            </span>
-                                        </div>
-                                        <div class="flex items-center gap-1 text-amber-500">
-                                            ★ <span class="text-[#1b1b18]">{{ number_format($book->owner->rating ?? 0, 1) }}</span>
-                                        </div>
-                                    </div>
-
-                                    @if ($book->location)
-                                        <div class="mt-2 text-xs text-[#acaaa3] line-clamp-2">
-                                           ул.  {{ $book->location }}
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
+                    <div class="w-full h-full flex items-center justify-center text-7xl">📖</div>
                 @endif
+
+                <div class="absolute top-4 right-4 bg-[#1b1b18] text-white text-xs font-medium px-4 py-1.5 rounded-2xl">
+                    {{ $book->status }}
+                </div>
             </div>
+
+            <!-- Информация -->
+            <div class="p-5">
+
+                <h3 class="font-semibold text-lg leading-tight line-clamp-2">
+                    {{ $book->title }}
+                </h3>
+
+                <p class="text-[#706f6c]">
+                    {{ $book->author }}
+                </p>
+
+                @if ($book->genre)
+                    <span class="mt-3 inline-block bg-[#EDEBE4] text-xs px-3 py-1 rounded-full">
+                        {{ $book->genre->name }}
+                    </span>
+                @endif
+
+                <!-- Город -->
+                <div class="mt-4 text-sm text-[#706f6c]">
+                    <span class="font-medium flex">
+                        <img class="w-[18px] mr-2" src="img/point.png">
+                        {{ $book->city?->name ?? 'Не указан' }}
+                    </span>
+                </div>
+
+                <!-- Владелец -->
+                <div class="mt-6 pt-5 border-t border-[#e3e3e0] flex items-center justify-between text-sm">
+                    <div>
+                        от 
+                        <span class="font-medium text-[#1b1b18]">
+                            {{ $book->owner->username ?? $book->owner->full_name ?? 'Пользователь' }}
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-1 text-amber-500">
+                        ★ 
+                        <span class="text-[#1b1b18]">
+                            {{ number_format($book->owner->rating ?? 0, 1) }}
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+        </a>
+
+        @endforeach
+
+    </div>
+
+    @endif
+</div>
 
         </div>
     </div>

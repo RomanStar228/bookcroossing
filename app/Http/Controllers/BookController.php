@@ -13,14 +13,16 @@ class BookController extends Controller
      * Показываем дашборд с книгами пользователя
      */
     public function index()
-    {
-        $books = Book::where('owner_id', auth()->id())
-                     ->with(['genre', 'city'])   // подгружаем связанные данные
-                     ->latest()                  // новые книги сверху
-                     ->get();
+{
+    $books = Book::where('owner_id', auth()->id())
+                 ->with(['genre', 'city'])   // обязательно!
+                 ->latest()
+                 ->get();
 
-        return view('dashboard', compact('books'));
-    }
+    $genres = \App\Models\Genre::orderBy('name')->get();   // ← добавь эту строку
+
+    return view('dashboard', compact('books', 'genres'));
+}
 
     /**
      * Форма добавления книги
@@ -121,4 +123,15 @@ public function adminSearch()
 
     return view('search-books', compact('books', 'cities'));
 }
+/**
+ * Профиль книги (book-info.blade.php)
+ */
+public function show(Book $book)
+{
+    $book->load(['genre', 'city', 'owner']);
+
+    return view('book-info', compact('book'));
 }
+
+}
+
