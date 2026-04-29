@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('genres', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();           // название жанра
+            $table->string('name')->unique();           
             $table->timestamps();
         });
     }

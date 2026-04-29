@@ -4,7 +4,7 @@
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
 
-    <!-- ОБЛОЖКА -->
+   
     <div>
         @if($book->cover_image_url)
             <img src="{{ $book->cover_image_url }}"
@@ -12,7 +12,6 @@
         @endif
     </div>
 
-    <!-- ИНФОРМАЦИЯ -->
     <div>
 
         <h1 class="text-3xl font-semibold mb-4">
@@ -38,14 +37,28 @@
             </p>
         </div>
 
-        <!-- 🔥 СТАТУС -->
+        
         <div class="mb-6">
             <span class="px-4 py-2 bg-black text-white rounded-xl">
                 {{ $book->status }}
             </span>
         </div>
+        @if($book->owner_id !== auth()->id())
 
-        <!-- 🔐 МЕСТОНАХОЖДЕНИЕ -->
+<form method="POST"
+      action="{{ route('requests.store', $book) }}">
+    @csrf
+
+    <button
+        class="mt-6 px-6 py-3 bg-green-600 text-white rounded-xl">
+        Забронировать книгу
+    </button>
+
+</form>
+
+@endif
+
+        
         <div class="bg-gray-100 p-5 rounded-2xl">
             <h3 class="font-semibold mb-2">Местонахождение книги</h3>
 

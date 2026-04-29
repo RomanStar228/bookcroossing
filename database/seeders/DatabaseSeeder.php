@@ -11,49 +11,43 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Города
+       
         $this->call(CitySeeder::class);
 
-        // 2. Жанры
+       
         $this->call(GenreSeeder::class);
 
-        // 3. Создаём администратора (только если ещё не существует)
-        if (!User::where('email', 'admin@bookcrosser.ru')->exists()) {
-            User::create([
+        
+        $admin = User::updateOrCreate(
+            ['email' => 'admin@bookcrosser.ru'],
+            [
                 'username'    => 'admin',
                 'full_name'   => 'Администратор',
-                'email'       => 'admin@bookcrosser.ru',
-                'password'    => bcrypt('password'),
+                'password'    => bcrypt('123456789'),   
                 'city_id'     => City::first()->id ?? 1,
                 'role'        => 'admin',
                 'is_banned'   => false,
                 'rating'      => 5.00,
                 'description' => 'Главный администратор платформы BookCrosser',
-            ]);
-            echo "✅ Создан администратор (admin@bookcrosser.ru)\n";
-        } else {
-            echo "ℹ️  Администратор уже существует\n";
-        }
+            ]
+        );
 
-        // 4. Создаём тестового пользователя
-        if (!User::where('email', 'test@bookcrosser.ru')->exists()) {
-            User::create([
+        
+
+        
+        User::updateOrCreate(
+            ['email' => 'test@bookcrosser.ru'],
+            [
                 'username'    => 'testuser',
                 'full_name'   => 'Тестовый Пользователь',
-                'email'       => 'test@bookcrosser.ru',
                 'password'    => bcrypt('password'),
                 'city_id'     => City::first()->id ?? 1,
                 'role'        => 'user',
                 'is_banned'   => false,
                 'rating'      => 0.00,
-            ]);
-            echo "✅ Создан тестовый пользователь (test@bookcrosser.ru)\n";
-        } else {
-            echo "ℹ️  Тестовый пользователь уже существует\n";
-        }
+            ]
+        );
 
-        echo "\n🎉 Database seeded successfully!\n";
-        echo "   Логин администратора: admin@bookcrosser.ru / password\n";
-        echo "   Логин тестового пользователя: test@bookcrosser.ru / password\n";
+       
     }
 }

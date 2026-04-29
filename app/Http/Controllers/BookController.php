@@ -9,24 +9,20 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    /**
-     * Показываем дашборд с книгами пользователя
-     */
+    
     public function index()
 {
     $books = Book::where('owner_id', auth()->id())
-                 ->with(['genre', 'city'])   // обязательно!
+                 ->with(['genre', 'city'])  
                  ->latest()
                  ->get();
 
-    $genres = \App\Models\Genre::orderBy('name')->get();   // ← добавь эту строку
+    $genres = \App\Models\Genre::orderBy('name')->get();   
 
     return view('dashboard', compact('books', 'genres'));
 }
 
-    /**
-     * Форма добавления книги
-     */
+   
     public function create()
     {
         $cities = City::orderBy('name')->get();
@@ -35,9 +31,7 @@ class BookController extends Controller
         return view('books.create', compact('cities', 'genres'));
     }
 
-    /**
-     * Сохранение новой книги в базу
-     */
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -65,7 +59,7 @@ class BookController extends Controller
         $book->status       = $validated['status'] ?? 'Отдаю';
         $book->is_public    = true;
 
-        // Сохранение обложки
+        
         if ($request->hasFile('cover_image')) {
             $path = $request->file('cover_image')->store('covers', 'public');
             $book->cover_image_url = '/storage/' . $path;
@@ -77,12 +71,7 @@ class BookController extends Controller
                          ->with('success', 'Книга успешно добавлена в ваш профиль!');
     }
 
-  /**
- * Страница поиска книг (публичная)
- */
-/**
- * Страница поиска книг (с фильтрами)
- */
+ 
 public function search(Request $request)
 {
     $cities = City::orderBy('name')->get();
@@ -90,12 +79,11 @@ public function search(Request $request)
     $query = Book::where('is_public', true)
                  ->with(['genre', 'city', 'owner']);
 
-    // Фильтрация по городу
+    
     if ($request->filled('city_id')) {
         $query->where('city_id', $request->city_id);
     }
 
-    // Поиск по названию или автору
     if ($request->filled('search')) {
         $search = $request->search;
         $query->where(function($q) use ($search) {
@@ -109,23 +97,18 @@ public function search(Request $request)
     return view('search-books', compact('books', 'cities'));
 }
 
-/**
- * Страница поиска книг ДЛЯ АДМИНИСТРАТОРА
- * Админ видит ВСЕ книги и может их удалять
- */
+
 public function adminSearch()
 {
     $cities = City::orderBy('name')->get();
 
     $books = Book::with(['genre', 'city', 'owner'])
                  ->latest()
-                 ->get();   // Админ видит абсолютно все книги
+                 ->get();  
 
     return view('search-books', compact('books', 'cities'));
 }
-/**
- * Профиль книги (book-info.blade.php)
- */
+
 public function show(Book $book)
 {
     $book->load(['genre', 'city', 'owner']);

@@ -21,17 +21,17 @@
     </head>
     <body class="bg-[#FDFDFC]">
 
-    <!-- ====================== НАВИГАЦИЯ ====================== -->
+   
     <header class="w-full border-b border-[#e3e3e0] bg-white sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex items-center justify-between h-16 lg:h-20">
 
-                <!-- Логотип -->
+            
                 <div class="flex items-center">
                     <img class=" w-[140px]" src="img/logo_1.svg" alt="Logo" class="h-8">
                 </div>
 
-                <!-- Меню -->
+                
                 <nav class="hidden md:flex items-center gap-8 text-sm text-[15px] font-medium">
                     <a href="#home" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">Главная</a>
                     <a href="#about" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">О нас</a>
@@ -40,7 +40,7 @@
                     <a href="#reviews" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">Отзывы</a>
                 </nav>
 
-                <!-- Правая часть (авторизация) -->
+                
                 <div class="flex items-center font-medium gap-4">
                     @if (Route::has('login'))
                         @auth
@@ -64,23 +64,23 @@
                     @endif
                 </div>
 
-                <!-- Мобильное меню (кнопка) -->
+               
                 <button class="md:hidden text-[#1b1b18]">
                     ☰
                 </button>
             </div>
         </div>
     </header>
-    <!-- ====================== КОНЕЦ НАВИГАЦИИ ====================== -->
+    
 
-    <!-- Основной контент -->
+   
     <main>
-        <!-- Секция главной страницы -->
+        
         <section id="home" class="pt-12 ">
             <div class="flex justify-center items-center py-12">
                 <div class="flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-16 max-w-7xl mx-auto px-6">
 
-                    <!-- Левый блок с текстом -->
+                   
                     <div class="w-full lg:w-1/2 max-w-[529px] text-center lg:text-left">
                         <img src="/img/logo_2.svg" alt="Logo" class="mx-auto lg:mx-0">
 
@@ -100,7 +100,7 @@
                         </div>
                     </div>
 
-                    <!-- Правый блок с картинкой -->
+                    
                     <div class="w-full lg:w-1/2 flex justify-center lg:justify-start">
                         <img src="/img/book.png" 
                              alt="Книга" 
@@ -110,25 +110,25 @@
                 </div>
             </div>
         </section>
-        <!-- Блок преимуществ -->
+        
         <div class="bg-[#EDEBE4] w-full h-[216px] mt-[140px] flex items-center">
             <div class="max-w-7xl mx-auto px-6 w-full">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 h-full items-center">
-                <!-- Карточка 1 -->
+               
                     <div class="flex flex-col items-center text-center">
                         <img src="/img/img1.svg" alt="" class="">
                             <p class="text-[#94928B] font-medium text-[15px] leading-[1.15] mb-[10px] md:leading-tight">
                                 РАСШИРЕНИЕ КНИЖНОГО<br class="hidden md:block"> КРУГОЗОРА
                             </p>
                     </div>
-                <!-- Карточка 2 -->
+               
                     <div class="flex flex-col items-center text-center">
                         <img src="/img/img2.svg" alt="" class="mb-4">
                             <p class="text-[#94928B] font-medium text-[15px] mb-[3px] leading-[1.15] md:leading-tight">
                                 МОТИВАЦИЯ К<br class="hidden md:block"> ЧТЕНИЮ
                             </p>
                     </div>
-                <!-- Карточка 3 -->
+                
                     <div class="flex flex-col items-center text-center">
                         <img src="/img/img3.svg" alt="" class="mb-4">
                             <p class="text-[#94928B] font-medium text-[15px] leading-[1.15] md:leading-tight">
@@ -142,11 +142,11 @@
    <footer class="bg-white pt-12 mt-[100px] mb-[100px] pb-10">
     <div class="max-w-7xl mx-auto px-6">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-y-10">
-            <!-- Логотип -->
+            
             <div class="md:col-span-4 mr-[30%]">
                 <img class="" src="/img/logo_2.svg" alt="WildPages" class="h-10">
             </div>
-            <!-- Колонка 1: О Нас -->
+           
             <div class="md:col-span-2">
                 <h3 class="font-medium text-[#1b1b18] mb-4">О Нас</h3>
                 <ul class="space-y-2 text-sm text-[#706f6c]">
@@ -156,7 +156,7 @@
                 </ul>
             </div>
 
-            <!-- Колонка 2: Сообщество -->
+           
             <div class="md:col-span-3">
                 <h3 class="font-medium text-[#1b1b18] mb-4">Сообщество</h3>
                 <ul class="space-y-2 text-sm text-[#706f6c]">
@@ -167,10 +167,10 @@
                 </ul>
             </div>
 
-            <!-- Колонка 3: Книги + Связь (объединены в одну колонку как на скриншоте) -->
+            
             <div class="md:col-span-3">
                 <div class="grid grid-cols-2 gap-x-12">
-                    <!-- Книги -->
+                   
                     <div>
                         <h3 class="font-medium text-[#1b1b18] mb-4">Книги</h3>
                         <ul class="space-y-2 text-sm text-[#706f6c]">
@@ -181,7 +181,7 @@
                         </ul>
                     </div>
 
-                    <!-- Связь -->
+                 
                     <div>
                         <h3 class="font-medium text-[#1b1b18] mb-4">Связь</h3>
                         <ul class="space-y-2 text-sm text-[#706f6c]">

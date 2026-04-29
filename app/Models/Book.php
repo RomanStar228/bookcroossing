@@ -19,12 +19,12 @@ class Book extends Model
         'cover_image_url',
         'status',
         'city_id',
-        'location',        // новое поле
+        'location',        
         'condition',
         'is_public',
     ];
 
-    // Связи
+    
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
@@ -39,4 +39,9 @@ class Book extends Model
     {
         return $this->belongsTo(City::class);
     }
+
+    public function requests()
+{
+    return $this->hasMany(BookRequest::class);
+}
 }

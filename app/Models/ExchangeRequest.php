@@ -38,6 +38,6 @@ class ExchangeRequest extends Model
 
     public function owner()
     {
-        return $this->book->owner(); // владелец книги
+        return $this->book->owner(); 
     }
 }

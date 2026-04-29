@@ -11,7 +11,7 @@ class Genre extends Model
 
     protected $fillable = ['name'];
 
-    // Связь с книгами
+    
     public function books()
     {
         return $this->hasMany(Book::class);

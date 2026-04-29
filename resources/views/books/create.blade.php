@@ -127,7 +127,7 @@
 </x-app-layout>
 
 <script>
-// Счётчик символов для улицы
+
 document.addEventListener('DOMContentLoaded', function () {
     const input = document.getElementById('location');
     const counter = document.getElementById('location-counter');
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// Отображение имени выбранного файла
+
 function updateFileName(input) {
     const fileNameSpan = document.getElementById('file-name');
     if (input.files && input.files.length > 0) {

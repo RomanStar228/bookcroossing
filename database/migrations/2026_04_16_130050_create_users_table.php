@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('avatar_url')->nullable();
             $table->text('description')->nullable();
             
-            // ←←←← ИСПРАВЛЕНИЕ ЗДЕСЬ ←←←←
+           
             $table->foreignId('city_id')
-                  ->nullable()                    // добавили nullable
+                  ->nullable()                    
                   ->constrained('cities')
                   ->onDelete('set null');
             

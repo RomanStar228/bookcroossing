@@ -2,7 +2,7 @@
     <div class="min-h-screen bg-[#FDFDFC] py-8">
         <div class="max-w-7xl mx-auto px-6">
 
-            <!-- Заголовок + Кнопка Добавить книгу -->
+            
             <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
                 <div>
                     <h1 class="text-3xl font-semibold text-[#1b1b18]">
@@ -20,7 +20,7 @@
                 </a>
             </div>
 
-            <!-- Поиск и фильтрация -->
+          
             <div class="bg-white border border-[#e3e3e0] rounded-3xl p-8 mb-12">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
                     <div class="md:col-span-7">
@@ -38,7 +38,7 @@
                         </div>
                     </div>
 
-                    <!-- Фильтр по жанру (теперь с реальными жанрами) -->
+                    
                     <div class="md:col-span-5">
                         <label class="block text-sm font-medium text-[#706f6c] mb-2">Жанр</label>
                         <select id="genre-filter" 
@@ -52,12 +52,12 @@
                 </div>
             </div>
 
-            <!-- Мои книги -->
+           
             <div>
                 <h2 class="text-2xl font-semibold text-[#1b1b18] mb-6">Мои книги ({{ $books->count() }})</h2>
 
                 @if ($books->isEmpty())
-                    <!-- Пустое состояние -->
+                   
                     <div class="text-center py-20 bg-white border border-dashed border-[#e3e3e0] rounded-3xl">
                         <div class="mx-auto w-24 h-24 bg-[#EDEBE4] rounded-3xl flex items-center justify-center text-6xl mb-6">
                             <img class="w-[70px]" src="img/booksItem.png" alt="">
@@ -72,12 +72,12 @@
                         </a>
                     </div>
                 @else
-                    <!-- Сетка книг -->
+                    
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         @foreach ($books as $book)
                             <div class="bg-white border border-[#e3e3e0] rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-300 group">
                                 
-                                <!-- Обложка -->
+                                
                                 <div class="aspect-[4/3] bg-[#EDEBE4] relative">
                                     @if ($book->cover_image_url)
                                         <img src="{{ $book->cover_image_url }}" 
@@ -94,14 +94,14 @@
                                     </div>
                                 </div>
 
-                                <!-- Информация о книге -->
+                                
                                 <div class="p-5">
                                     <h3 class="font-semibold text-[#1b1b18] text-lg leading-tight line-clamp-2 mb-1">
                                         {{ $book->title }}
                                     </h3>
                                     <p class="text-[#706f6c] text-sm">{{ $book->author }}</p>
 
-                                    <!-- Жанр (теперь всегда отображается, если есть) -->
+                                    
                                     <div class="flex flex-wrap gap-2 mt-4">
                                         @if ($book->genre)
                                             <span class="bg-[#EDEBE4] text-[#1b1b18] text-xs px-3 py-1 rounded-full">

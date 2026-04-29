@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('author');
             $table->string('isbn')->nullable()->unique();
 
-            // ИСПРАВЛЕНИЕ: genre_id должен быть nullable при onDelete('set null')
+            
             $table->foreignId('genre_id')
-                  ->nullable()                    // ←←← ЭТО ОБЯЗАТЕЛЬНО
+                  ->nullable()                    
                   ->constrained('genres')
                   ->onDelete('set null');
 
@@ -32,7 +32,7 @@ return new class extends Migration
                   ->default('Отдаю');
 
             $table->foreignId('city_id')
-                  ->nullable()                    // ←←← тоже лучше сделать nullable
+                  ->nullable()                    
                   ->constrained('cities')
                   ->onDelete('set null');
 
