@@ -49,4 +49,18 @@ class Book extends Model
     {
         return $this->hasMany(BookRequest::class);
     }
+
+    // app/Models/Book.php
+
+public function reviews()
+{
+    return $this->hasManyThrough(
+        Review::class,
+        BookRequest::class,
+        'book_id',          // внешний ключ в book_requests
+        'book_request_id',  // внешний ключ в reviews
+        'id',               // локальный ключ в books
+        'id'                // локальный ключ в book_requests
+    )->where('book_requests.status', 'completed'); // Только завершённые обмены
+}
 }

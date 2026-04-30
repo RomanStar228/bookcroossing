@@ -121,29 +121,66 @@ class BookController extends Controller
      * ===============================
      */
     public function show(Book $book)
-    {
-        $book->load(['genre', 'city', 'owner', 'requests']);
+{
+    $book->load(['genre', 'city', 'owner', 'requests']);
 
-        return view('book-info', compact('book'));
-    }
+    $reviews = $book->reviews()
+        ->with('reviewer')
+        ->latest()
+        ->paginate(5);
 
-    /**
-     * ===============================
-     * BOOK-INFO2 (после принятия обмена)
-     * ===============================
-     */
-    public function exchangeShow(Book $book)
-    {
-        $book->load(['genre', 'city', 'owner', 'requests']);
+    $canReview = false;
+    $reviewableRequest = null;
 
-        // запрос текущего пользователя
-        $currentRequest = $book->requests()
-            ->where('requester_id', auth()->id())
-            ->where('status', 'approved')
+    if (auth()->check()) {
+        $reviewableRequest = $book->requests()
+            ->where('status', 'completed')
+            ->where('requester_id', auth()->id())   // ← только тот, кто бронировал
+            ->whereDoesntHave('reviews', fn($r) => $r->where('reviewer_id', auth()->id()))
             ->first();
 
-        return view('book-info2', compact('book', 'currentRequest'));
+        $canReview = (bool) $reviewableRequest;
     }
+
+    return view('book-info', compact('book', 'reviews', 'canReview', 'reviewableRequest'));
+}
+    /**
+     * ===============================
+     * BOOK-INFO2 (после принятия обмена / для авторизованных)
+     * ===============================
+     */
+   public function exchangeShow(Book $book)
+{
+    $book->load(['genre', 'city', 'owner', 'requests']);
+
+    $currentRequest = $book->requests()
+        ->where('requester_id', auth()->id())
+        ->where('status', 'approved')
+        ->first();
+
+    $reviews = $book->reviews()
+        ->with('reviewer')
+        ->latest()
+        ->paginate(5);
+
+    $canReview = false;
+    $reviewableRequest = null;
+
+    if (auth()->check()) {
+        $reviewableRequest = $book->requests()
+            ->where('status', 'completed')
+            ->where(function ($q) {
+                $q->where('requester_id', auth()->id())
+                  ->orWhereHas('book', fn($b) => $b->where('owner_id', auth()->id()));
+            })
+            ->whereDoesntHave('reviews', fn($r) => $r->where('reviewer_id', auth()->id()))
+            ->first();
+
+        $canReview = (bool) $reviewableRequest;
+    }
+
+    return view('book-info2', compact('book', 'currentRequest', 'reviews', 'canReview', 'reviewableRequest'));
+}
 
     /**
      * ===============================

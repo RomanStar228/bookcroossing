@@ -74,64 +74,48 @@
         
 
 
-        <!-- Статус -->
+        <!-- Статус --> 
         <div>
             <span class="inline-block px-6 py-3 bg-black text-white rounded-2xl shadow">
                 {{ $book->status }}
             </span>
         </div>
 
-
-
-
-
-     @if(isset($currentRequest))
-
-    <div class="bg-white p-7 rounded-3xl shadow-lg border mt-10">
-
-    <h3 class="text-xl font-semibold mb-5">
-        ⭐ Оставить отзыв
-    </h3>
-
-    <form method="POST"
-          action="{{ route('reviews.store', $currentRequest) }}"
-          class="space-y-4">
-
-        @csrf
-
-        <select name="rating" required
-            class="w-full border rounded-xl p-3">
-
-            <option value="">Выберите оценку</option>
-            <option value="5">⭐⭐⭐⭐⭐ Отлично</option>
-            <option value="4">⭐⭐⭐⭐ Хорошо</option>
-            <option value="3">⭐⭐⭐ Нормально</option>
-            <option value="2">⭐⭐ Плохо</option>
-            <option value="1">⭐ Очень плохо</option>
-
-        </select>
-
-        <textarea name="comment"
-            placeholder="Напишите отзыв..."
-            class="w-full border rounded-xl p-3 h-28"></textarea>
-
-        <button
-            class="w-full bg-black text-white py-3 rounded-2xl">
-            Отправить отзыв
-        </button>
-
-    </form>
-
-</div>
-
-@endif
-
-
     </div>
 
 </div>
 
+
+
 </div>
+<!-- ===================== -->
+<!-- ФОРМА ДЛЯ ОТЗЫВА (если можно оставить) -->
+<!-- ===================== -->
+@if($canReview && $reviewableRequest)
+    <div class="mt-10 p-6 bg-gray-50 rounded-xl border border-gray-200">
+        <h3 class="text-xl font-semibold mb-4">Оставить отзыв</h3>
+        <form action="{{ route('reviews.store', $reviewableRequest) }}" method="POST">
+            @csrf
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Оценка</label>
+                <select name="rating" class="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black" required>
+                    <option value="">Выберите оценку</option>
+                    @for($i=1; $i<=5; $i++)
+                        <option value="{{ $i }}">{{ $i }} ★</option>
+                    @endfor
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Комментарий (необязательно)</label>
+                <textarea name="comment" rows="3" class="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black" placeholder="Поделитесь впечатлениями о книге или обмене..."></textarea>
+            </div>
+            <button type="submit" class="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition">
+                Отправить отзыв
+            </button>
+        </form>
+    </div>
+@endif
 </div>
 
 </x-app-layout>
+ <!-- бронь сделана --> 

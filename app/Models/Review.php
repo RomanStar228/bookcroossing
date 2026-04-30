@@ -1,31 +1,35 @@
 <?php
 
+// app/Models/Review.php
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'book_request_id',
         'reviewer_id',
-        'reviewed_user_id',
+        'reviewee_id',
         'rating',
         'comment'
     ];
+
+    public function bookRequest()
+    {
+        return $this->belongsTo(BookRequest::class);
+    }
 
     public function reviewer()
     {
         return $this->belongsTo(User::class, 'reviewer_id');
     }
 
-    public function reviewedUser()
+    public function reviewee()
     {
-        return $this->belongsTo(User::class, 'reviewed_user_id');
-    }
-
-    public function request()
-    {
-        return $this->belongsTo(BookRequest::class, 'book_request_id');
+        return $this->belongsTo(User::class, 'reviewee_id');
     }
 }

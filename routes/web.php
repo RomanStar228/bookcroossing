@@ -45,9 +45,17 @@ Route::middleware('auth')->group(function () {
 });
 
 
+
+// Публичный просмотр отзывов о пользователе
+Route::get('/user/{user}/reviews', [ReviewController::class, 'index'])
+    ->name('reviews.index');
+
+// Сам store уже есть, но убедитесь, что он внутри auth:
 Route::post('/reviews/{bookRequest}', [ReviewController::class, 'store'])
-    ->name('reviews.store')
-    ->middleware('auth');
+    ->middleware('auth')
+    ->name('reviews.store');
+
+
 
 // === Запросы на обмен ===
 Route::middleware('auth')->group(function () {

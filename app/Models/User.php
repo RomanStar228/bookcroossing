@@ -45,13 +45,20 @@ class User extends Authenticatable
     return $this->hasMany(BookRequest::class, 'requester_id');
 }
 
-public function reviewsReceived()
+// app/Models/User.php
+public function receivedReviews()
 {
-    return $this->hasMany(Review::class, 'reviewed_user_id');
+    return $this->hasMany(Review::class, 'reviewee_id');
 }
 
-public function reviewsGiven()
+public function givenReviews()
 {
     return $this->hasMany(Review::class, 'reviewer_id');
+}
+
+// Средний рейтинг пользователя
+public function averageRating()
+{
+    return $this->receivedReviews()->avg('rating') ?? 0;
 }
 }
