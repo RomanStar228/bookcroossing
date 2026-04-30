@@ -46,27 +46,39 @@
                                 ул. {{ $book->location }}
                             @endif
                         </p>
-                       
                     </div>
                     <div>
                         <h3 class="font-medium text-[#1b1b18] mb-2">Точное местонахождение</h3>
                         <p class="text-[#1b1b18] leading-relaxed">Точное описание местоположения будет доступно только после бронирования книги</p>
                     </div>
 
+                    <!-- Статус книги с учётом роли пользователя -->
+                    <div>
+                        @php
+                            $displayStatus = $book->status;
+                            if (auth()->check() && auth()->id() != $book->owner_id && $book->status == 'Отдаю') {
+                                $displayStatus = 'Нужно найти';
+                            }
+                        @endphp
+                        <span class="inline-block px-6 py-3 bg-black text-white rounded-2xl shadow">
+                            {{ $displayStatus }}
+                        </span>
+                    </div>
+
                     @auth
-    @if(Auth::id() != $book->owner_id && in_array($book->status, ['Отдаю', 'Ищу']))
-        <form method="POST" action="{{ route('requests.store', $book) }}">
-            @csrf
-            <button class="w-full mt-8 bg-black text-white py-3 rounded-2xl">
-                Забронировать книгу
-            </button>
-        </form>
-    @elseif(Auth::id() != $book->owner_id)
-        <div class="w-full mt-8 bg-gray-300 text-gray-600 py-3 rounded-2xl text-center">
-            Книга уже забронирована или обменяна
-        </div>
-    @endif
-@endauth
+                        @if(Auth::id() != $book->owner_id && $book->status == 'Отдаю')
+                            <form method="POST" action="{{ route('requests.store', $book) }}">
+                                @csrf
+                                <button class="w-full mt-8 bg-black text-white py-3 rounded-2xl">
+                                    Забронировать книгу
+                                </button>
+                            </form>
+                        @elseif(Auth::id() != $book->owner_id)
+                            <div class="w-full mt-8 bg-gray-300 text-gray-600 py-3 rounded-2xl text-center">
+                                Книга уже забронирована или обменяна
+                            </div>
+                        @endif
+                    @endauth
                 </div>
             </div>
 
@@ -119,6 +131,7 @@
                     </form>
                 </div>
             @endif
+
         </div>
     </div>
 </x-app-layout>

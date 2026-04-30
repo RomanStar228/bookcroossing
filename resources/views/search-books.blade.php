@@ -106,7 +106,11 @@
 
                 <!-- Статус -->
                 <div class="absolute top-4 right-4 bg-[#1b1b18] text-white text-xs px-4 py-1.5 rounded-2xl">
-                    {{ $book->status }}
+                    @if(auth()->check() && auth()->id() != $book->owner_id && $book->status == 'Отдаю')
+                                Нужно найти
+                    @else
+                            {{ $book->status }}
+                    @endif
                 </div>
             </div>
 

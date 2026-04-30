@@ -20,9 +20,9 @@ class BookRequestController extends Controller
     }
 
     // 2. Книга должна быть доступна для бронирования
-    if (!in_array($book->status, ['Отдаю', 'Ищу'])) {
-        return back()->with('error', 'Эта книга уже забронирована или обменяна.');
-    }
+    if ($book->status != 'Отдаю') {
+    return back()->with('error', 'Эта книга уже недоступна для бронирования.');
+}
 
     // 3. Проверка, не отправлял ли пользователь запрос ранее
     $exists = BookRequest::where('book_id', $book->id)
@@ -87,28 +87,26 @@ class BookRequestController extends Controller
      */
    public function approve(BookRequest $request)
 {
-    // только владелец книги
     if ($request->book->owner_id !== auth()->id()) {
         abort(403);
     }
 
-    // ❌ отменяем остальные запросы на эту книгу
+    // Отменяем остальные запросы
     BookRequest::where('book_id', $request->book_id)
         ->where('id', '!=', $request->id)
         ->update(['status' => 'rejected']);
 
-    // ✅ сразу завершаем обмен
+    // Завершаем обмен
     $request->status = 'completed';
     $request->save();
 
-    // ✅ меняем статус книги
+    // Статус книги – «Найдена»
     $book = $request->book;
-    $book->status = 'Можно забирать';
+    $book->status = 'Найдена';   // ← было 'Можно забирать'
     $book->save();
 
-    return redirect()
-        ->route('requests.index')
-        ->with('success', 'Обмен подтверждён! Книгу можно забирать.');
+    return redirect()->route('requests.index')
+        ->with('success', 'Обмен подтверждён! Книга найдена.');
 }
 
     /**
@@ -131,18 +129,19 @@ class BookRequestController extends Controller
      * ✅ САМАЯ ВАЖНАЯ ЧАСТЬ — завершение обмена
      */
     public function complete(BookRequest $request)
-    {
-        // только тот, кто бронировал книгу
-        if ($request->requester_id !== auth()->id()) {
-            abort(403);
-        }
-
-        // меняем статус
-        $request->status = 'completed';
-        $request->save();
-
-        return redirect()
-            ->route('requests.index')
-            ->with('success', 'Обмен успешно завершён!');
+{
+    if ($request->requester_id !== auth()->id()) {
+        abort(403);
     }
+
+    $request->status = 'completed';
+    $request->save();
+
+    // Меняем статус книги для владельца
+    $book = $request->book;
+    $book->status = 'Найдена';
+    $book->save();
+
+    return redirect()->route('requests.index')->with('success', 'Обмен успешно завершён!');
+}
 }

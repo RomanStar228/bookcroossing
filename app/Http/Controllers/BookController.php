@@ -95,9 +95,9 @@ class BookController extends Controller
         $cities = City::orderBy('name')->get();
 
         $query = Book::where('is_public', true)
-             ->whereIn('status', ['Отдаю', 'Ищу'])   // только доступные для бронирования
-             ->with(['genre', 'city', 'owner']);
-             
+            ->where('status', 'Отдаю')   // только доступные для бронирования
+            ->with(['genre', 'city', 'owner']);
+
         if ($request->filled('city_id')) {
             $query->where('city_id', $request->city_id);
         }
@@ -188,14 +188,13 @@ class BookController extends Controller
  */
 public function foundIndex()
 {
-    // Берём книги, которые считаются найденными
-    $books = Book::whereIn('status', ['Обменяна', 'Можно забирать'])
+    $books = Book::where('status', 'Найдена')
         ->with(['genre', 'city', 'owner'])
         ->withAvg('reviews', 'rating')
         ->latest()
         ->get();
 
-     return view('found-books.found', compact('books'));  // вместо 'found-books.index'
+    return view('found-books.found', compact('books'));
 }
 
 /**
