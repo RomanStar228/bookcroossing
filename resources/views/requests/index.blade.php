@@ -125,7 +125,7 @@ class="bg-black text-white px-6 py-3 rounded-2xl hover:bg-gray-900 transition">
 
 @continue(!$request->book)
 
-<a href="{{ route('book.exchange.show', $request->book) }}"
+<a href="{{ route('book.show', $request->book) }}" 
 class="block bg-white border border-gray-200 rounded-3xl p-7 hover:shadow-lg transition">
 
 <div class="flex flex-col md:flex-row gap-6">

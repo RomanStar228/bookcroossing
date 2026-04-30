@@ -95,8 +95,9 @@ class BookController extends Controller
         $cities = City::orderBy('name')->get();
 
         $query = Book::where('is_public', true)
-            ->with(['genre', 'city', 'owner']);
-
+             ->whereIn('status', ['Отдаю', 'Ищу'])   // только доступные для бронирования
+             ->with(['genre', 'city', 'owner']);
+             
         if ($request->filled('city_id')) {
             $query->where('city_id', $request->city_id);
         }

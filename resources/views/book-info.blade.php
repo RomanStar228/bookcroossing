@@ -46,7 +46,7 @@
                                 ул. {{ $book->location }}
                             @endif
                         </p>
-                        <p>Точное описание местоположения будет доступно только после бронирования книги</p>
+                       
                     </div>
                     <div>
                         <h3 class="font-medium text-[#1b1b18] mb-2">Точное местонахождение</h3>
@@ -54,15 +54,19 @@
                     </div>
 
                     @auth
-                        @if(Auth::id() != $book->owner_id)
-                            <form method="POST" action="{{ route('requests.store', $book) }}">
-                                @csrf
-                                <button class="w-full mt-8 bg-black text-white py-3 rounded-2xl">
-                                    Забронировать книгу
-                                </button>
-                            </form>
-                        @endif
-                    @endauth
+    @if(Auth::id() != $book->owner_id && in_array($book->status, ['Отдаю', 'Ищу']))
+        <form method="POST" action="{{ route('requests.store', $book) }}">
+            @csrf
+            <button class="w-full mt-8 bg-black text-white py-3 rounded-2xl">
+                Забронировать книгу
+            </button>
+        </form>
+    @elseif(Auth::id() != $book->owner_id)
+        <div class="w-full mt-8 bg-gray-300 text-gray-600 py-3 rounded-2xl text-center">
+            Книга уже забронирована или обменяна
+        </div>
+    @endif
+@endauth
                 </div>
             </div>
 

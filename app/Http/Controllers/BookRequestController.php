@@ -12,30 +12,38 @@ class BookRequestController extends Controller
     /**
      * Отправка запроса на бронирование
      */
-    public function store(Book $book)
-    {
-        if ($book->owner_id === Auth::id()) {
-            return back()->with('error', 'Нельзя бронировать свою книгу.');
-        }
-
-        $exists = BookRequest::where('book_id', $book->id)
-            ->where('requester_id', Auth::id())
-            ->exists();
-
-        if ($exists) {
-            return back()->with('error', 'Вы уже отправили запрос на эту книгу.');
-        }
-
-        BookRequest::create([
-            'book_id'      => $book->id,
-            'requester_id' => Auth::id(),
-            'status'       => 'pending',
-        ]);
-
-        return redirect()
-            ->route('requests.index')
-            ->with('success', 'Запрос на бронирование отправлен!');
+   public function store(Book $book)
+{
+    // 1. Нельзя бронировать свою книгу
+    if ($book->owner_id === Auth::id()) {
+        return back()->with('error', 'Нельзя бронировать свою книгу.');
     }
+
+    // 2. Книга должна быть доступна для бронирования
+    if (!in_array($book->status, ['Отдаю', 'Ищу'])) {
+        return back()->with('error', 'Эта книга уже забронирована или обменяна.');
+    }
+
+    // 3. Проверка, не отправлял ли пользователь запрос ранее
+    $exists = BookRequest::where('book_id', $book->id)
+        ->where('requester_id', Auth::id())
+        ->exists();
+
+    if ($exists) {
+        return back()->with('error', 'Вы уже отправили запрос на эту книгу.');
+    }
+
+    // Создание запроса
+    BookRequest::create([
+        'book_id'      => $book->id,
+        'requester_id' => Auth::id(),
+        'status'       => 'pending',
+    ]);
+
+    return redirect()
+        ->route('requests.index')
+        ->with('success', 'Запрос на бронирование отправлен!');
+}
 
     /**
      * Страница "Обмен"

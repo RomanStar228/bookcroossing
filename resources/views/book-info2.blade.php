@@ -88,33 +88,7 @@
 
 
 </div>
-<!-- ===================== -->
-<!-- ФОРМА ДЛЯ ОТЗЫВА (если можно оставить) -->
-<!-- ===================== -->
-@if($canReview && $reviewableRequest)
-    <div class="mt-10 p-6 bg-gray-50 rounded-xl border border-gray-200">
-        <h3 class="text-xl font-semibold mb-4">Оставить отзыв</h3>
-        <form action="{{ route('reviews.store', $reviewableRequest) }}" method="POST">
-            @csrf
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Оценка</label>
-                <select name="rating" class="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black" required>
-                    <option value="">Выберите оценку</option>
-                    @for($i=1; $i<=5; $i++)
-                        <option value="{{ $i }}">{{ $i }} ★</option>
-                    @endfor
-                </select>
-            </div>
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Комментарий (необязательно)</label>
-                <textarea name="comment" rows="3" class="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black" placeholder="Поделитесь впечатлениями о книге или обмене..."></textarea>
-            </div>
-            <button type="submit" class="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition">
-                Отправить отзыв
-            </button>
-        </form>
-    </div>
-@endif
+
 </div>
 
 </x-app-layout>
