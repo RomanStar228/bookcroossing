@@ -21,9 +21,11 @@ return new class extends Migration
           ->cascadeOnDelete();
 
     $table->enum('status', [
-        'pending',
-        'approved',
-        'rejected'
+    'pending',
+    'approved',      // или 'accepted' — важно, чтобы совпадало
+    'rejected',
+    'cancelled',
+    'completed'      // ← должно быть
     ])->default('pending');
 
     $table->timestamps();

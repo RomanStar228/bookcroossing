@@ -87,11 +87,14 @@
 
                         {{-- Описание места --}}
                         <div>
-                            <label class="block text-sm font-medium text-[#706f6c] mb-2">Описание места</label>
-                            <textarea name="description" rows="3" placeholder="Например: под скамейкой в парке Победы, возле кафе 'Книга' и т.д."
-                                class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 resize-y"></textarea>
-                            <p class="text-xs text-[#acaaa3] mt-1">Опишите точное место, чтобы другой пользователь легко нашёл книгу</p>
-                        </div>
+    <label class="block text-sm font-medium text-[#706f6c] mb-2">Описание места (дополнительно)</label>
+    <textarea name="description" rows="4" 
+        class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none resize-y"
+        placeholder="Например: под скамейкой в парке Победы, возле кафе 'Книга'...">
+        {{ old('description') }}
+    </textarea>
+    <p class="text-xs text-[#acaaa3] mt-1">Опишите точное место, чтобы другой пользователь легко нашёл книгу</p>
+</div>
 
                         {{-- Обложка (кастомная кнопка) --}}
                         <div>

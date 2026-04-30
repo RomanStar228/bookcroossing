@@ -4,9 +4,6 @@
 
 @section('content')
     <div class="max-w-7xl mx-auto">
-        <h1 class="text-3xl font-semibold text-[#1b1b18] mb-8">Управление пользователями</h1>
-
-        
         <h2 class="text-xl font-medium text-[#1b1b18] mb-4">Активные пользователи</h2>
         <div class="bg-white rounded-3xl shadow-sm border border-[#e3e3e0] overflow-hidden mb-12">
             <table class="w-full">
@@ -33,7 +30,7 @@
                                 @csrf
                                 @method('PATCH')
                                 <button onclick="return confirm('Заблокировать пользователя?')" 
-                                        class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl text-sm">
+                                        class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm">
                                     Заблокировать
                                 </button>
                             </form>
@@ -42,7 +39,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button onclick="return confirm('Удалить пользователя навсегда?')" 
-                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm">
+                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm">
                                     Удалить
                                 </button>
                             </form>
@@ -75,7 +72,7 @@
                             <form method="POST" action="{{ route('admin.users.unban', $user) }}">
                                 @csrf
                                 @method('PATCH')
-                                <button class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl text-sm">
+                                <button class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg text-sm">
                                     Разблокировать
                                 </button>
                             </form>

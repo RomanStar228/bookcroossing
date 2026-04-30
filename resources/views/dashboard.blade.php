@@ -26,12 +26,12 @@
                     <div class="md:col-span-7">
                         <label class="block text-sm font-medium text-[#706f6c] mb-2">Поиск книг</label>
                         <div class="relative">
-                            <input 
-                                type="text" 
-                                id="search-input"
-                                placeholder="Название книги или имя автора..."
-                                class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 text-[#1b1b18] placeholder-[#acaaa3] focus:outline-none"
-                            >
+                            <input
+                        type="text"
+                        name="search"
+                        value="{{ request('search') }}"
+                        placeholder="Введите название или автора..."
+                        class="w-full bg-[#F8F7F4] border border-[#e3e3e0] rounded-2xl px-6 py-4 focus:outline-none">
                             <button class="absolute right-6 top-1/2 -translate-y-1/2 text-[#706f6c] hover:text-[#1b1b18] text-xl">
                                 <img class="w-[20px]" src="img/search.png" alt="">
                             </button>
@@ -85,7 +85,7 @@
                                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center text-6xl text-[#acaaa3]">
-                                            📖
+                                            <img src="/img/photo_delete2.png" alt="">
                                         </div>
                                     @endif
                                     
