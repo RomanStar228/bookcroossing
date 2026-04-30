@@ -145,7 +145,7 @@
                     </div>
 
                     <div class="text-amber-500">
-                        ★ {{ number_format($book->owner->rating ?? 0, 1) }}
+                        ★ {{ number_format($book->avg_rating, 1) }}
                     </div>
 
                 </div>

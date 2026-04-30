@@ -63,4 +63,12 @@ public function reviews()
         'id'                // локальный ключ в book_requests
     )->where('book_requests.status', 'completed'); // Только завершённые обмены
 }
+
+
+// Добавьте этот метод после связей
+public function getAvgRatingAttribute()
+{
+    // Берём средний rating из отзывов, связанных с книгой
+    return $this->reviews()->avg('rating') ?? 0;
+}
 }
