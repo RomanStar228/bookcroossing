@@ -55,7 +55,8 @@ Route::post('/reviews/{bookRequest}', [ReviewController::class, 'store'])
     ->middleware('auth')
     ->name('reviews.store');
 
-
+Route::get('/found-books', [BookController::class, 'foundIndex'])->name('found-books.index');
+Route::get('/found-books/{book}', [BookController::class, 'foundShow'])->name('found-books.show');
 
 // === Запросы на обмен ===
 Route::middleware('auth')->group(function () {

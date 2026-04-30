@@ -182,6 +182,40 @@ class BookController extends Controller
     return view('book-info2', compact('book', 'currentRequest', 'reviews', 'canReview', 'reviewableRequest'));
 }
 
+/**
+ * Страница "Найденные книги" – список книг со статусом "Обменяна" или "Можно забирать"
+ */
+public function foundIndex()
+{
+    // Берём книги, которые считаются найденными
+    $books = Book::whereIn('status', ['Обменяна', 'Можно забирать'])
+        ->with(['genre', 'city', 'owner'])
+        ->withAvg('reviews', 'rating')
+        ->latest()
+        ->get();
+
+     return view('found-books.found', compact('books'));  // вместо 'found-books.index'
+}
+
+/**
+ * Просмотр найденной книги (только чтение, без кнопки бронирования и формы отзыва)
+ */
+public function foundShow(Book $book)
+{
+    $book->load(['genre', 'city', 'owner', 'requests']);
+
+    // Отзывы показываем, но форму не выводим
+    $reviews = $book->reviews()
+        ->with('reviewer')
+        ->latest()
+        ->paginate(5);
+
+    // Флаг, чтобы в шаблоне скрыть интерактивные элементы
+    $readonly = true;
+
+    return view('found-books.found-show', compact('book', 'reviews', 'readonly'));
+}
+
     /**
      * ===============================
      * Админ поиск

@@ -23,6 +23,10 @@
                     <x-nav-link :href="route('requests.index')" :active="request()->routeIs('requests.index')">
                         Обмен
                     </x-nav-link>
+
+                    <x-nav-link :href="route('found-books.index')" :active="request()->routeIs('found-books.*')">
+         Найденные книги
+    </x-nav-link>
                 </div>
             </div>
 
@@ -84,6 +88,10 @@
 
     <x-nav-link :href="route('requests.index')" :active="request()->routeIs('requests.index')">
         Обмен
+    </x-nav-link>
+
+    <x-nav-link :href="route('found-books.index')" :active="request()->routeIs('found-books.*')">
+         Найденные книги
     </x-nav-link>
 </div>
 
