@@ -227,6 +227,60 @@ public function foundShow(Book $book)
     return view('found-books.found-show', compact('book', 'reviews', 'readonly', 'canViewLocation'));
 }
 
+/**
+ * Форма редактирования книги
+ */
+public function edit(Book $book)
+{
+    if ($book->owner_id !== Auth::id()) {
+        abort(403);
+    }
+    $cities = City::orderBy('name')->get();
+    $genres = Genre::orderBy('name')->get();
+    return view('books.edit', compact('book', 'cities', 'genres'));
+}
+
+/**
+ * Обновление книги
+ */
+public function update(Request $request, Book $book)
+{
+    if ($book->owner_id !== Auth::id()) {
+        abort(403);
+    }
+
+    $validated = $request->validate([
+        'title'       => 'required|string|max:255',
+        'author'      => 'required|string|max:255',
+        'genre_id'    => 'nullable|exists:genres,id',
+        'description' => 'nullable|string|max:1000',
+        'location'    => 'required|string|max:500',
+        'city_id'     => 'nullable|exists:cities,id',
+        'year'        => 'nullable|integer|min:1800|max:' . date('Y'),
+        'condition'   => 'nullable|string|max:100',
+        'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+        'status'      => 'in:Отдаю,Ищу',
+    ]);
+
+    $book->title       = $validated['title'];
+    $book->author      = $validated['author'];
+    $book->genre_id    = $validated['genre_id'] ?? null;
+    $book->description = $validated['description'] ?? null;
+    $book->location    = $validated['location'];
+    $book->city_id     = $validated['city_id'] ?? Auth::user()->city_id;
+    $book->condition   = $validated['condition'] ?? null;
+    $book->status      = $validated['status'] ?? 'Отдаю';
+
+    if ($request->hasFile('cover_image')) {
+        $path = $request->file('cover_image')->store('covers', 'public');
+        $book->cover_image_url = '/storage/' . $path;
+    }
+
+    $book->save();
+
+    return redirect()->route('dashboard')->with('success', 'Книга успешно обновлена!');
+}
+
     /**
      * ===============================
      * Админ поиск

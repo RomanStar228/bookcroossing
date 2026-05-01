@@ -81,57 +81,51 @@
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         @foreach ($books as $book)
-                            <div class="bg-white border border-[#e3e3e0] rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-300 group">
-                                
-                                
-                                <div class="aspect-[4/3] bg-[#EDEBE4] relative">
-                                    @if ($book->cover_image_url)
-                                        <img src="{{ $book->cover_image_url }}" 
-                                             alt="{{ $book->title }}"
-                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                    @else
-                                        <div class="w-full h-full flex items-center justify-center text-6xl text-[#acaaa3]">
-                                            <img src="/img/photo_delete2.png" alt="">
-                                        </div>
-                                    @endif
-                                    
-                                    <div class="absolute top-3 right-3 bg-white text-[#1b1b18] text-xs font-medium px-3 py-1 rounded-full shadow-sm">
-                                        {{ $book->status }}
-                                    </div>
-                                </div>
-
-                                
-                                <div class="p-5">
-                                    <h3 class="font-semibold text-[#1b1b18] text-lg leading-tight line-clamp-2 mb-1">
-                                        {{ $book->title }}
-                                    </h3>
-                                    <p class="text-[#706f6c] text-sm">{{ $book->author }}</p>
-
-                                    
-                                    <div class="flex flex-wrap gap-2 mt-4">
-                                        @if ($book->genre)
-                                            <span class="bg-[#EDEBE4] text-[#1b1b18] text-xs px-3 py-1 rounded-full">
-                                                {{ $book->genre->name }}
-                                            </span>
-                                        @endif
-                                        @if ($book->year)
-                                            <span class="text-[#acaaa3] text-xs">{{ $book->year }}</span>
-                                        @endif
-                                    </div>
-
-                                    <div class="mt-5 pt-5 border-t border-[#e3e3e0] text-sm">
-                                        <div class="flex items-center gap-2 text-[#706f6c]">
-                                            <span><img class="w-[18px]" src="img/point.png" alt=""></span>
-                                            <span>{{ $book->city?->name ?? 'Не указан' }}</span>
-                                        </div>
-                                        @if ($book->location)
-                                            <div class="mt-2 text-xs text-[#acaaa3] line-clamp-2">
-                                               ул. {{ $book->location }}
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="bg-white border border-[#e3e3e0] rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-300 group relative">
+    <!-- Ссылка на страницу книги (вся карточка кликабельна) -->
+    <a href="{{ route('book.show', $book) }}" class="block">
+        <div class="aspect-[4/3] bg-[#EDEBE4] relative">
+            @if ($book->cover_image_url)
+                <img src="{{ $book->cover_image_url }}" alt="{{ $book->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            @else
+                <div class="w-full h-full flex items-center justify-center text-6xl text-[#acaaa3]">
+                    <img src="/img/photo_delete2.png" alt="">
+                </div>
+            @endif
+            <div class="absolute top-3 right-3 bg-white text-[#1b1b18] text-xs font-medium px-3 py-1 rounded-full shadow-sm">
+                {{ $book->status }}
+            </div>
+        </div>
+        <div class="p-5">
+            <h3 class="font-semibold text-[#1b1b18] text-lg leading-tight line-clamp-2 mb-1">{{ $book->title }}</h3>
+            <p class="text-[#706f6c] text-sm">{{ $book->author }}</p>
+            <div class="flex flex-wrap gap-2 mt-4">
+                @if ($book->genre)
+                    <span class="bg-[#EDEBE4] text-[#1b1b18] text-xs px-3 py-1 rounded-full">{{ $book->genre->name }}</span>
+                @endif
+                @if ($book->year)
+                    <span class="text-[#acaaa3] text-xs">{{ $book->year }}</span>
+                @endif
+            </div>
+            <div class="mt-5 pt-5 border-t border-[#e3e3e0] text-sm">
+                <div class="flex items-center gap-2 text-[#706f6c]">
+                    <img class="w-[18px]" src="img/point.png" alt=""> <span>{{ $book->city?->name ?? 'Не указан' }}</span>
+                </div>
+                @if ($book->location)
+                    <div class="mt-2 text-xs text-[#acaaa3] line-clamp-2">ул. {{ $book->location }}</div>
+                @endif
+            </div>
+        </div>
+    </a>
+    <!-- Кнопка редактирования -->
+    <a href="{{ route('books.edit', $book) }}" 
+       class="absolute top-3 left-3 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition z-10"
+       title="Редактировать книгу">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#1b1b18]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+        </svg>
+    </a>
+</div>
                         @endforeach
                     </div>
                 @endif
