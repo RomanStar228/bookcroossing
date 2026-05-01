@@ -47,7 +47,7 @@
                                 <div class="flex flex-wrap justify-between items-start gap-2">
                                     <div>
                                         <h3 class="font-semibold text-lg">{{ $request->book->title }}</h3>
-                                       <p class="text-sm text-[#706f6c] mt-1">Автор: {{ $request->book->author }}</p>
+                                        <p class="text-sm text-[#706f6c] mt-1">Автор: {{ $request->book->author }}</p>
                                     </div>
                                     <span class="px-4 py-1.5 rounded-full text-sm font-medium {{ $statusClass }}">{{ $statusText }}</span>
                                 </div>
@@ -65,7 +65,7 @@
         </div>
     </div>
 
-    {{-- 2. ВХОДЯЩИЕ ЗАПРОСЫ --}}
+    {{-- 2. ВХОДЯЩИЕ ЗАПРОСЫ (с кнопкой Отклонить) --}}
     <div class="mb-16 bg-white border border-[#e3e3e0] rounded-3xl shadow-sm overflow-hidden">
         <div class="p-6 lg:p-8">
             <div class="flex items-center gap-3 mb-6">
@@ -95,15 +95,26 @@
                                     <p class="text-sm text-[#706f6c] mt-1">Автор: {{ $request->book->author }}</p>
                                 </div>
                                 @if($request->status === 'pending')
-                                    <form method="POST" action="{{ route('requests.approve', $request) }}">
-                                        @csrf
-                                        <button class="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800 transition text-sm">
-                                            Принять запрос
-                                        </button>
-                                    </form>
+                                    <div class="flex gap-2">
+                                        <form method="POST" action="{{ route('requests.approve', $request) }}">
+                                            @csrf
+                                            <button class="bg-black text-white px-6 py-2 rounded-2xl hover:bg-gray-800 transition text-sm">
+                                                Принять
+                                            </button>
+                                        </form>
+                                        <form method="POST" action="{{ route('requests.reject', $request) }}">
+                                            @csrf
+                                            <button class="bg-gray-200 text-gray-800 px-6 py-2 rounded-2xl hover:bg-gray-300 transition text-sm">
+                                                Отклонить
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <span class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
+                                        {{ $request->status === 'rejected' ? 'Отклонён' : ucfirst($request->status) }}
+                                    </span>
                                 @endif
                             </div>
-                            
                             <div class="mt-2 text-sm text-[#acaaa3] flex">
                                 <img class="w-4 h-4 mr-1" src="/img/point.png" alt=""> 
                                 {{ $request->book->city?->name ?? 'Город не указан' }}  

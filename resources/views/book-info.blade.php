@@ -24,25 +24,31 @@
 
             {{-- Детали --}}
             <div class="space-y-5">
+                @if(session('error'))
+                    <div class="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl">
+                        {{ session('error') }}
+                    </div>
+                @endif
+                @if(session('success'))
+                    <div class="mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <div>
                     <h1 class="text-3xl font-semibold text-[#1b1b18]">{{ $book->title }}</h1>
                     <p class="text-xl text-[#706f6c]">{{ $book->author }}</p>
                 </div>
-                <div class="flex">
-                @if($book->genre)
-                    <div>
+                <div class="flex items-center gap-2">
+                    @if($book->genre)
                         <span class="inline-block bg-black text-white text-sm px-4 py-1.5 rounded-full">{{ $book->genre->name }}</span>
-                    </div>
-                @endif
-                {{-- Статус --}}
-                
+                    @endif
                     @php
                         $displayStatus = $book->status;
                         if (auth()->check() && auth()->id() != $book->owner_id && $book->status == 'Отдаю') {
                             $displayStatus = 'Нужно найти';
                         }
                     @endphp
-                    <span class="inline-block px-5 py-1 ml-3 bg-black text-white rounded-full text-sm shadow-md">{{ $displayStatus }}</span>
+                    <span class="inline-block px-5 py-1 bg-black text-white rounded-full text-sm shadow-md">{{ $displayStatus }}</span>
                 </div>
 
                 <div class="border-t border-[#e3e3e0] pt-4 space-y-2">
@@ -54,12 +60,24 @@
                         <span class="text-[#706f6c] w-24">Улица:</span>
                         <span class="text-[#1b1b18]">{{ $book->location ? 'ул. ' . $book->location : '—' }}</span>
                     </div>
-                    <div class="text-sm text-[#acaaa3] mt-2">
-                        <span class="flex"> <img class="w-5 h-5 mr-2" src="/img/point.png" alt=""> Точное описание местоположения будет доступно только после бронирования книги</span>
+
+                    {{-- ТОЧНОЕ МЕСТОНАХОЖДЕНИЕ — УСЛОВНЫЙ ВЫВОД --}}
+                    <div class="mt-2">
+                        <div class="flex items-center gap-2 text-[#706f6c] font-medium">
+                            <img class="w-5 h-5" src="/img/point.png" alt="">
+                            <span>Точное местонахождение:</span>
+                        </div>
+                        @if(isset($canViewLocation) && $canViewLocation && $book->description)
+                            <p class="mt-1 text-[#1b1b18] p-1 ">
+                                {{ $book->description }}
+                            </p>
+                        @else
+                            <p class="mt-1 text-sm text-[#acaaa3]">
+                                Будет доступно после успешного завершения обмена.
+                            </p>
+                        @endif
                     </div>
                 </div>
-
-                
 
                 {{-- Кнопка / сообщение --}}
                 @auth
@@ -80,7 +98,7 @@
     <div class="bg-white border border-[#e3e3e0] rounded-3xl shadow-sm overflow-hidden mb-10">
         <div class="p-6 lg:p-8">
             <div class="flex items-center gap-2 mb-6">
-                <span class="text-2xl"> <img class="w-6 h-6" src="/img/massage.png" alt=""></span>
+                <img class="w-6 h-6" src="/img/massage.png" alt="">
                 <h2 class="text-2xl font-medium text-[#1b1b18]">Отзывы</h2>
             </div>
 
@@ -120,7 +138,6 @@
         <div class="bg-white border border-[#e3e3e0] rounded-3xl shadow-sm overflow-hidden">
             <div class="p-6 lg:p-8">
                 <div class="flex items-center gap-2 mb-4">
-                    
                     <h3 class="text-xl font-semibold text-[#1b1b18]">Оставить отзыв</h3>
                 </div>
                 <form action="{{ route('reviews.store', $reviewableRequest) }}" method="POST">

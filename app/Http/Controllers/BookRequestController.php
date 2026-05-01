@@ -21,16 +21,27 @@ class BookRequestController extends Controller
 
     // 2. Книга должна быть доступна для бронирования
     if ($book->status != 'Отдаю') {
-    return back()->with('error', 'Эта книга уже недоступна для бронирования.');
-}
+        return back()->with('error', 'Эта книга уже недоступна для бронирования.');
+    }
 
-    // 3. Проверка, не отправлял ли пользователь запрос ранее
+    // 3. Проверка, не отправлял ли пользователь запрос ранее (кроме отклонённых)
     $exists = BookRequest::where('book_id', $book->id)
         ->where('requester_id', Auth::id())
+        ->whereIn('status', ['pending', 'approved'])
         ->exists();
-
+    
     if ($exists) {
-        return back()->with('error', 'Вы уже отправили запрос на эту книгу.');
+        return back()->with('error', 'Вы уже отправили запрос на эту книгу или он уже принят.');
+    }
+
+    // 4. Проверка, не был ли отклонён предыдущий запрос от этого пользователя
+    $rejected = BookRequest::where('book_id', $book->id)
+        ->where('requester_id', Auth::id())
+        ->where('status', 'rejected')
+        ->exists();
+    
+    if ($rejected) {
+        return back()->with('error', 'Извините, вы не можете забронировать книгу, так как пользователь отказал вам в брони.');
     }
 
     // Создание запроса

@@ -15,17 +15,30 @@ class BookController extends Controller
      * Дашборд пользователя
      * ===============================
      */
-    public function index()
-    {
-        $books = Book::where('owner_id', Auth::id())
-            ->with(['genre', 'city'])
-            ->latest()
-            ->get();
+   public function index(Request $request)
+{
+    $query = Book::where('owner_id', Auth::id())
+        ->with(['genre', 'city']);
 
-        $genres = Genre::orderBy('name')->get();
-
-        return view('dashboard', compact('books', 'genres'));
+    // Фильтр по поисковому запросу (название или автор)
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function ($q) use ($search) {
+            $q->where('title', 'LIKE', "%{$search}%")
+              ->orWhere('author', 'LIKE', "%{$search}%");
+        });
     }
+
+    // Фильтр по жанру
+    if ($request->filled('genre_id')) {
+        $query->where('genre_id', $request->genre_id);
+    }
+
+    $books = $query->latest()->get();
+    $genres = Genre::orderBy('name')->get();
+
+    return view('dashboard', compact('books', 'genres'));
+}
 
     /**
      * ===============================
@@ -83,6 +96,8 @@ class BookController extends Controller
         return redirect()
             ->route('dashboard')
             ->with('success', 'Книга успешно добавлена!');
+
+            
     }
 
     /**
@@ -121,7 +136,7 @@ class BookController extends Controller
      * BOOK-INFO (из поиска)
      * ===============================
      */
-    public function show(Book $book)
+   public function show(Book $book)
 {
     $book->load(['genre', 'city', 'owner', 'requests']);
 
@@ -136,14 +151,16 @@ class BookController extends Controller
     if (auth()->check()) {
         $reviewableRequest = $book->requests()
             ->where('status', 'completed')
-            ->where('requester_id', auth()->id())   // ← только тот, кто бронировал
+            ->where('requester_id', auth()->id())
             ->whereDoesntHave('reviews', fn($r) => $r->where('reviewer_id', auth()->id()))
             ->first();
-
         $canReview = (bool) $reviewableRequest;
     }
 
-    return view('book-info', compact('book', 'reviews', 'canReview', 'reviewableRequest'));
+    // Флаг, может ли пользователь видеть точное местоположение
+    $canViewLocation = auth()->check() && $book->canViewLocation(auth()->user());
+
+    return view('book-info', compact('book', 'reviews', 'canReview', 'reviewableRequest', 'canViewLocation'));
 }
     /**
      * ===============================
@@ -203,17 +220,11 @@ public function foundIndex()
 public function foundShow(Book $book)
 {
     $book->load(['genre', 'city', 'owner', 'requests']);
-
-    // Отзывы показываем, но форму не выводим
-    $reviews = $book->reviews()
-        ->with('reviewer')
-        ->latest()
-        ->paginate(5);
-
-    // Флаг, чтобы в шаблоне скрыть интерактивные элементы
+    $reviews = $book->reviews()->with('reviewer')->latest()->paginate(5);
     $readonly = true;
+    $canViewLocation = auth()->check() && $book->canViewLocation(auth()->user());
 
-    return view('found-books.found-show', compact('book', 'reviews', 'readonly'));
+    return view('found-books.found-show', compact('book', 'reviews', 'readonly', 'canViewLocation'));
 }
 
     /**

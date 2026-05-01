@@ -42,12 +42,12 @@
     </div>
 
     <!-- Книга: две страницы -->
-    <div class="relative flex book-shadow rounded-3xl overflow-hidden bg-white">
-        
-        <!-- Левая страница -->
-        <div class="w-1/2 bg-white p-8 page-curve-left page-shadow-left relative z-10 flex flex-col">
-            <form method="POST" action="{{ route('register') }}" class="flex-1 flex flex-col">
-                @csrf
+    <form method="POST" action="{{ route('register') }}">
+        @csrf
+        <div class="relative flex book-shadow rounded-3xl overflow-hidden bg-white">
+            
+            <!-- Левая страница -->
+            <div class="w-1/2 bg-white p-8 page-curve-left page-shadow-left relative z-10 flex flex-col">
                 <div class="flex-1 space-y-6">
                     <div>
                         <label for="username" class="block text-sm font-medium text-[#1b1b18] mb-1">Имя пользователя</label>
@@ -68,17 +68,16 @@
                         @error('email') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
                 </div>
-                <!-- Номер страницы внизу -->
                 <div class="text-center text-xs text-[#acaaa3] tracking-wider mt-8 pt-4 border-t border-[#e3e3e0]">
-                    1 
+                    1
                 </div>
-        </div>
+            </div>
 
-        <!-- Корешок -->
-        <div class="binding-line relative z-0"></div>
+            <!-- Корешок -->
+            <div class="binding-line relative z-0"></div>
 
-        <!-- Правая страница -->
-        <div class="w-1/2 bg-white p-8 page-curve-right page-shadow-right relative z-10 flex flex-col">
+            <!-- Правая страница -->
+            <div class="w-1/2 bg-white p-8 page-curve-right page-shadow-right relative z-10 flex flex-col">
                 <div class="flex-1 space-y-6">
                     <div>
                         <label for="city_id" class="block text-sm font-medium text-[#1b1b18] mb-1">Город (необязательно)</label>
@@ -103,24 +102,21 @@
                                class="w-full px-4 py-3 bg-white border border-[#e3e3e0] rounded-xl focus:outline-none focus:ring-1 focus:ring-black">
                     </div>
                 </div>
-                <!-- Номер страницы внизу -->
-                <div class="text-center text-xs text-[#acaaa3] tracking-wider mt-8 pt-4 border-t border-[#e3e3e0]">
-                    2 
+                <div class="text-center mt-8">
+                    <button type="submit"
+                            class="px-8 py-3 bg-[#1b1b18] text-white rounded-full shadow-md hover:bg-black transition-all duration-200 font-medium flex items-center gap-2 mx-auto">
+                        <span>Зарегистрироваться</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </button>
                 </div>
-            </form>
+                <div class="text-center text-xs text-[#acaaa3] tracking-wider mt-4 pt-4 border-t border-[#e3e3e0]">
+                    2
+                </div>
+            </div>
         </div>
-    </div>
-
-    <!-- Кнопка отправки -->
-    <div class="flex justify-center mt-8">
-        <button type="submit"
-                class="px-8 py-3 bg-[#1b1b18] text-white rounded-full shadow-md hover:bg-black transition-all duration-200 font-medium flex items-center gap-2">
-            <span>Зарегистрироваться</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-        </button>
-    </div>
+    </form>
 
     <div class="text-center mt-6 text-sm text-[#706f6c]">
         Уже есть аккаунт? <a href="{{ route('login') }}" class="text-[#1b1b18] font-medium hover:underline">Войдите</a>

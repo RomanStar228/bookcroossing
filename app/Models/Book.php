@@ -71,4 +71,22 @@ public function getAvgRatingAttribute()
     // Берём средний rating из отзывов, связанных с книгой
     return $this->reviews()->avg('rating') ?? 0;
 }
+
+public function canViewLocation(User $user)
+{
+    // Если книга найдена (успешный обмен)
+    if ($this->status === 'Найдена') {
+        // Проверяем, есть ли завершённый обмен с участием этого пользователя
+        return $this->requests()
+            ->where('status', 'completed')
+            ->where(function ($query) use ($user) {
+                $query->where('requester_id', $user->id)
+                      ->orWhereHas('book', function ($q) use ($user) {
+                          $q->where('owner_id', $user->id);
+                      });
+            })
+            ->exists();
+    }
+    return false;
+}
 }

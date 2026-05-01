@@ -21,36 +21,42 @@
             </div>
 
           
-            <div class="bg-white border border-[#e3e3e0] rounded-3xl p-8 mb-12">
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-                    <div class="md:col-span-7">
-                        <label class="block text-sm font-medium text-[#706f6c] mb-2">Поиск книг</label>
-                        <div class="relative">
-                            <input
-                        type="text"
-                        name="search"
-                        value="{{ request('search') }}"
-                        placeholder="Введите название или автора..."
-                        class="w-full bg-[#F8F7F4] border border-[#e3e3e0] rounded-2xl px-6 py-4 focus:outline-none">
-                            <button class="absolute right-6 top-1/2 -translate-y-1/2 text-[#706f6c] hover:text-[#1b1b18] text-xl">
-                                <img class="w-[20px]" src="img/search.png" alt="">
-                            </button>
-                        </div>
-                    </div>
-
-                    
-                    <div class="md:col-span-5">
-                        <label class="block text-sm font-medium text-[#706f6c] mb-2">Жанр</label>
-                        <select id="genre-filter" 
-                                class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 text-[#1b1b18] focus:outline-none">
-                            <option value="">Все жанры</option>
-                            @foreach ($genres as $genre)
-                                <option value="{{ $genre->id }}">{{ $genre->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+<!-- Фильтр -->
+<form method="GET" action="{{ route('dashboard') }}" class="bg-white border border-[#e3e3e0] rounded-3xl p-8 mb-12">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+        <div class="md:col-span-7">
+            <label class="block text-sm font-medium text-[#706f6c] mb-2">Поиск книг</label>
+            <div class="relative">
+                <input type="text" name="search" value="{{ request('search') }}"
+                       placeholder="Введите название или автора..."
+                       class="w-full bg-[#F8F7F4] border border-[#e3e3e0] rounded-2xl px-6 py-4 focus:outline-none">
+                <button type="submit" class="absolute right-6 top-1/2 -translate-y-1/2">
+                    <img class="w-[20px]" src="img/search.png" alt="">
+                </button>
             </div>
+        </div>
+
+        <div class="md:col-span-5">
+            <label class="block text-sm font-medium text-[#706f6c] mb-2">Жанр</label>
+            <select name="genre_id" id="genre-filter" 
+                    class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 text-[#1b1b18] focus:outline-none">
+                <option value="">Все жанры</option>
+                @foreach ($genres as $genre)
+                    <option value="{{ $genre->id }}" {{ request('genre_id') == $genre->id ? 'selected' : '' }}>
+                        {{ $genre->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</form>
+
+<script>
+    // Автоматическая отправка формы при изменении жанра
+    document.getElementById('genre-filter').addEventListener('change', function() {
+        this.closest('form').submit();
+    });
+</script>
 
            
             <div>
