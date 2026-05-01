@@ -91,11 +91,9 @@
                         </div>
 
                         <div class="mt-12">
-                            <a href="#" 
-                               class="inline-flex items-center justify-center bg-white border border-gray-300 
-                                      px-9 py-2 text-black  text-lg w-[251px] h-[61px]
-                                      hover:bg-gray-100 active:bg-gray-300 transition-colors">
-                                НАЧАТЬ ПОИСК
+                            <a href="{{ auth()->check() ? route('search-books') : route('register') }}" 
+                                class="inline-flex items-center justify-center bg-white border border-gray-300 px-9 py-2 text-black  text-lg w-[251px] h-[61px]   hover:bg-gray-100 active:bg-gray-300 transition-colors">
+                                    НАЧАТЬ ПОИСК
                             </a>
                         </div>
                     </div>
