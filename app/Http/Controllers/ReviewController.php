@@ -12,7 +12,7 @@ class ReviewController extends Controller
 {
     public function store(Request $request, BookRequest $bookRequest)
     {
-        // Проверка прав
+        
         if (!$bookRequest->canLeaveReview(Auth::user())) {
             abort(403, 'Вы не можете оставить отзыв к этому обмену.');
         }
@@ -23,12 +23,10 @@ class ReviewController extends Controller
         ]);
 
        $revieweeId = Auth::id() === $bookRequest->requester_id
-    ? $bookRequest->book->owner_id   // пишем владельцу книги
-    : $bookRequest->requester_id;    // пишем тому, кто запросил
+    ? $bookRequest->book->owner_id   
+    : $bookRequest->requester_id;    
 
-// reviewee_id никогда не будет равен reviewer_id, потому что:
-// - если пользователь — requester, то reviewee — owner (другой)
-// - если пользователь — owner, то reviewee — requester (другой)
+
 
         Review::create([
             'book_request_id' => $bookRequest->id,
@@ -41,7 +39,7 @@ class ReviewController extends Controller
         return redirect()->back()->with('success', 'Отзыв успешно добавлен.');
     }
 
-    // Показать все отзывы о пользователе (публичная страница)
+    
     public function index(User $user)
     {
         $reviews = $user->receivedReviews()->with('reviewer')->latest()->paginate(10);

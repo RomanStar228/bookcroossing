@@ -7,7 +7,7 @@
             </p>
         </div>
     </x-slot>
-    <div class="min-h-screen  bg-[#FDFDFC]  py-10">
+    <div class="min-h-screen bg-[#FDFDFC] py-10">
         <div class="max-w-2xl mx-auto px-6">
             <div class="bg-white border border-[#e3e3e0] rounded-3xl p-8">
 
@@ -39,17 +39,18 @@
                         {{-- Жанр + Год --}}
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-[#706f6c] mb-2">Жанр</label>
-                                <select name="genre_id" class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
-                                    <option value="">Не указан</option>
+                                <label class="block text-sm font-medium text-[#706f6c] mb-2">Жанр *</label>
+                                <select name="genre_id" required
+                                        class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
+                                    <option value="" disabled selected>Выберите жанр</option>
                                     @foreach ($genres as $genre)
                                         <option value="{{ $genre->id }}">{{ $genre->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-[#706f6c] mb-2">Год издания</label>
-                                <input type="number" name="year" min="1800" max="{{ date('Y') }}"
+                                <label class="block text-sm font-medium text-[#706f6c] mb-2">Год издания *</label>
+                                <input type="number" name="year" min="1800" max="{{ date('Y') }}" required
                                        class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
                             </div>
                         </div>
@@ -57,8 +58,10 @@
                         {{-- Город + Улица --}}
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-[#706f6c] mb-2">Город</label>
-                                <select name="city_id" class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
+                                <label class="block text-sm font-medium text-[#706f6c] mb-2">Город *</label>
+                                <select name="city_id" required
+                                        class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
+                                    <option value="" disabled selected>Выберите город</option>
                                     @foreach ($cities as $city)
                                         <option value="{{ $city->id }}" 
                                             {{ old('city_id', Auth::user()->city_id) == $city->id ? 'selected' : '' }}>
@@ -87,16 +90,14 @@
 
                         {{-- Описание места --}}
                         <div>
-    <label class="block text-sm font-medium text-[#706f6c] mb-2">Описание места (дополнительно)</label>
-    <textarea name="description" rows="4" 
-        class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none resize-y"
-        placeholder="Например: под скамейкой в парке Победы, возле кафе 'Книга'...">
-        {{ old('description') }}
-    </textarea>
-    <p class="text-xs text-[#acaaa3] mt-1">Опишите точное место, чтобы другой пользователь легко нашёл книгу</p>
-</div>
+                            <label class="block text-sm font-medium text-[#706f6c] mb-2">Описание места *</label>
+                            <textarea name="description" rows="4" required
+                                class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none resize-y"
+                                placeholder="Например: под скамейкой в парке Победы, возле кафе 'Книга'...">{{ old('description') }}</textarea>
+                            <p class="text-xs text-[#acaaa3] mt-1">Опишите точное место, чтобы другой пользователь легко нашёл книгу</p>
+                        </div>
 
-                        {{-- Обложка (кастомная кнопка) --}}
+                        {{-- Обложка (необязательно) --}}
                         <div>
                             <label class="block text-sm font-medium text-[#706f6c] mb-2">Обложка книги</label>
                             <div class="flex items-center gap-4 flex-wrap">
@@ -130,7 +131,6 @@
 </x-app-layout>
 
 <script>
-
 document.addEventListener('DOMContentLoaded', function () {
     const input = document.getElementById('location');
     const counter = document.getElementById('location-counter');
@@ -153,7 +153,6 @@ document.addEventListener('DOMContentLoaded', function () {
         updateCounter();
     }
 });
-
 
 function updateFileName(input) {
     const fileNameSpan = document.getElementById('file-name');

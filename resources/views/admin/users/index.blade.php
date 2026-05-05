@@ -13,7 +13,7 @@
                         <th class="px-6 py-4 text-left">Username</th>
                         <th class="px-6 py-4 text-left">Email</th>
                         <th class="px-6 py-4 text-left">Город</th>
-                        <th class="px-6 py-4 text-left">Рейтинг</th>
+                        
                         <th class="px-6 py-4 text-center">Действия</th>
                     </tr>
                 </thead>
@@ -24,7 +24,7 @@
                         <td class="px-6 py-5 text-[#706f6c]">@{{ $user->username }}</td>
                         <td class="px-6 py-5">{{ $user->email }}</td>
                         <td class="px-6 py-5">{{ $user->city?->name ?? '—' }}</td>
-                        <td class="px-6 py-5">{{ number_format($user->rating, 1) }}</td>
+                        
                         <td class="px-6 py-5 text-center">
                             <form method="POST" action="{{ route('admin.users.ban', $user) }}" class="inline">
                                 @csrf
