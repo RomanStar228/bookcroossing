@@ -80,7 +80,7 @@
             <div class="w-1/2 bg-white p-8 page-curve-right page-shadow-right relative z-10 flex flex-col">
                 <div class="flex-1 space-y-6">
                     <div>
-                        <label for="city_id" class="block text-sm font-medium text-[#1b1b18] mb-1">Город (необязательно)</label>
+                        <label for="city_id" class="block text-sm font-medium text-[#1b1b18] mb-1">Город</label>
                         <select name="city_id" id="city_id"
                                 class="w-full px-4 py-3 bg-white border border-[#e3e3e0] rounded-xl focus:outline-none focus:ring-1 focus:ring-black">
                             <option value="">Выберите город</option>

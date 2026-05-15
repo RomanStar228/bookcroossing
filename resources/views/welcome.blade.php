@@ -34,10 +34,8 @@
                 
                 <nav class="hidden md:flex items-center gap-8 text-sm text-[15px] font-medium">
                     <a href="#home" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">Главная</a>
-                    <a href="#about" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">О нас</a>
-                    <a href="#community" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">Сообщество</a>
-                    <a href="#search" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">Поиск книг</a>
-                    <a href="#reviews" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">Отзывы</a>
+                    <a href="{{ auth()->check() ? route('search-books') : route('register') }}" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">Поиск книг</a>
+                    <a href="{{ auth()->check() ? route('search-books') : route('register') }}" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">Отзывы</a>
                 </nav>
 
                 
@@ -141,56 +139,8 @@
     <div class="max-w-7xl mx-auto px-6">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-y-10">
             
-            <div class="md:col-span-4 mr-[30%]">
-                <img class="" src="/img/logo_2.svg" alt="WildPages" class="h-10">
-            </div>
-           
-            <div class="md:col-span-2">
-                <h3 class="font-medium text-[#1b1b18] mb-4">О Нас</h3>
-                <ul class="space-y-2 text-sm text-[#706f6c]">
-                    <li><a href="#" class="hover:text-[#727272] transition-colors">Главная</a></li>
-                    <li><a href="#" class="hover:text-[#727272] transition-colors">Книги</a></li>
-                    <li><a href="#" class="hover:text-[#727272] transition-colors">Авторы</a></li>
-                </ul>
-            </div>
-
-           
-            <div class="md:col-span-3">
-                <h3 class="font-medium text-[#1b1b18] mb-4">Сообщество</h3>
-                <ul class="space-y-2 text-sm text-[#706f6c]">
-                    <li><a href="#" class="hover:text-[#727272] transition-colors">Авторы</a></li>
-                    <li><a href="#" class="hover:text-[#727272] transition-colors">Название</a></li>
-                    <li><a href="#" class="hover:text-[#727272] transition-colors">Поиск книг</a></li>
-                    <li><a href="#" class="hover:text-[#727272] transition-colors">Буккроссинг</a></li>
-                </ul>
-            </div>
-
             
-            <div class="md:col-span-3">
-                <div class="grid grid-cols-2 gap-x-12">
-                   
-                    <div>
-                        <h3 class="font-medium text-[#1b1b18] mb-4">Книги</h3>
-                        <ul class="space-y-2 text-sm text-[#706f6c]">
-                            <li><a href="#" class="hover:text-[#727272] transition-colors">Авторы</a></li>
-                            <li><a href="#" class="hover:text-[#727272] transition-colors">Название</a></li>
-                            <li><a href="#" class="hover:text-[#727272] transition-colors">Поиск книг</a></li>
-                            <li><a href="#" class="hover:text-[#727272] transition-colors">Буккроссинг</a></li>
-                        </ul>
-                    </div>
-
-                 
-                    <div>
-                        <h3 class="font-medium text-[#1b1b18] mb-4">Связь</h3>
-                        <ul class="space-y-2 text-sm text-[#706f6c]">
-                            <li><a href="#" class="hover:text-[#727272] transition-colors">Помощь</a></li>
-                            <li><a href="#" class="hover:text-[#727272] transition-colors">Пожаловаться</a></li>
-                            <li><a href="#" class="hover:text-[#727272] transition-colors">Наши контакты</a></li>
-                            <li><a href="#" class="hover:text-[#727272] transition-colors">Вопросы</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+           
 
         </div>
     </div>

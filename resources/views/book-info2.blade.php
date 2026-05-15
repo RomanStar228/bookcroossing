@@ -58,14 +58,14 @@
 
         <!-- Адрес + описание -->
         
-            <h3 class="font-medium mb-3">Местонахождение книги</h3>
+            <h3 class="font-medium mb-3">Точное описание места книги</h3>
 
             <p class="leading-relaxed text-[#1b1b18]">
                 <h3 class="font-medium text-[#1b1b18] ">Улица</h3>
                 @if($book->location)
                     ул. {{ $book->location }}
                 @endif
-                <h3 class="font-medium text-[#1b1b18] ">Точное местонахождение</h3>
+                <h3 class="font-medium text-[#1b1b18] ">Точное описание места книги</h3>
                 @if($book->description)
                    {{ $book->description }}
                 @endif

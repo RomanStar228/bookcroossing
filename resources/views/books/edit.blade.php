@@ -93,12 +93,15 @@
 
                         {{-- Описание места --}}
                         <div>
-                            <label class="block text-sm font-medium text-[#706f6c] mb-2">Описание места (дополнительно)</label>
+                            <label class="block text-sm font-medium text-[#706f6c] mb-2">Описание места</label>
                             <textarea name="description" rows="4" 
                                 class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-6 py-4 focus:outline-none resize-y"
                                 placeholder="Например: под скамейкой в парке Победы, возле кафе 'Книга'...">{{ old('description', $book->description) }}</textarea>
                             <p class="text-xs text-[#acaaa3] mt-1">Опишите точное место, чтобы другой пользователь легко нашёл книгу</p>
                         </div>
+                        {{-- По умолчанию книга отдаётся, состояние — «Хорошее» --}}
+<input type="hidden" name="condition" value="Хорошее">
+<input type="hidden" name="status" value="Отдаю">
 
                         {{-- Обложка (с отображением старой) --}}
                         <div>

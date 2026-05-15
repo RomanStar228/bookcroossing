@@ -111,6 +111,9 @@
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
+                        {{-- По умолчанию книга отдаётся, состояние — «Хорошее» --}}
+<input type="hidden" name="condition" value="Хорошее">
+<input type="hidden" name="status" value="Отдаю">
 
                         {{-- Кнопки --}}
                         <div class="flex gap-4 pt-4">

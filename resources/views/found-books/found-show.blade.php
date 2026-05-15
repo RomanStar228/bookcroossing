@@ -51,7 +51,7 @@
                     <div class="mt-2">
                         <div class="flex items-center gap-2 text-[#706f6c] font-medium">
                             <img class="w-5 h-5" src="/img/point.png" alt="">
-                            <span>Точное местонахождение:</span>
+                            <span>Точное описание места книги:</span>
                         </div>
                         <p class="mt-1 text-sm text-[#acaaa3]">
                             {{ $book->description ?: 'Скрыто' }}
