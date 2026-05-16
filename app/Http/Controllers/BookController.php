@@ -162,6 +162,17 @@ class BookController extends Controller
         return view('book-info', compact('book', 'reviews', 'canReview', 'reviewableRequest', 'canViewLocation'));
     }
 
+    public function destroy(Book $book)
+{
+    // Проверяем, что пользователь — владелец книги
+    if ($book->owner_id !== Auth::id()) {
+        abort(403);
+    }
+
+    $book->delete(); // мягкое удаление (используется SoftDeletes)
+
+    return redirect()->route('dashboard')->with('success', 'Книга удалена.');
+}
     /**
      * ===============================
      * BOOK-INFO2 (после принятия обмена / для авторизованных)

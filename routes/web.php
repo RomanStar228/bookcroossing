@@ -47,6 +47,8 @@ Route::middleware('auth')->group(function () {
 });
 
 
+Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
+
 
 // Публичный просмотр отзывов о пользователе
 Route::get('/user/{user}/reviews', [ReviewController::class, 'index'])
@@ -123,6 +125,10 @@ Route::prefix('admin')
 
     Route::patch('/books/{book}/restore', [App\Http\Controllers\Admin\BookController::class, 'restore'])
          ->name('books.restore');
+
+
+         Route::get('/books/{book}/edit', [App\Http\Controllers\Admin\BookController::class, 'edit'])->name('books.edit');
+Route::put('/books/{book}', [App\Http\Controllers\Admin\BookController::class, 'update'])->name('books.update');
 });
 
 require __DIR__.'/auth.php';

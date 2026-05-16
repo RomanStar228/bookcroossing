@@ -46,14 +46,22 @@
                         <td class="px-6 py-4">{{ $book->owner->full_name ?? $book->owner->username ?? '—' }}</td>
                         <td class="px-6 py-4">{{ $book->city?->name ?? '—' }}</td>
                         <td class="px-6 py-4 text-center">
-                            <form method="POST" action="{{ route('admin.books.destroy', $book) }}" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button onclick="return confirm('Вы уверены, что хотите удалить эту книгу?')" 
-                                        class="bg-red-600 hover:bg-red-700 text-white text-sm px-5 py-2 rounded-lg">
-                                    Удалить
-                                </button>
-                            </form>
+                            <div class="flex justify-center gap-2">
+                                <!-- Кнопка Редактировать -->
+                                <a href="{{ route('admin.books.edit', $book) }}" 
+                                   class="bg-gray-800 hover:bg-gray-500 text-white text-sm px-4 py-2 rounded-lg">
+                                    Редактировать
+                                </a>
+                                <!-- Кнопка Удалить -->
+                                <form method="POST" action="{{ route('admin.books.destroy', $book) }}" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button onclick="return confirm('Вы уверены, что хотите удалить эту книгу?')" 
+                                            class="bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-2 rounded-lg">
+                                        Удалить
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     @empty
@@ -62,7 +70,7 @@
                             Активных книг пока нет
                         </td>
                     </tr>
-                    @endempty
+                    @endforelse
                 </tbody>
             </table>
         </div>
@@ -91,7 +99,7 @@
                                 @csrf
                                 @method('PATCH')
                                 <button onclick="return confirm('Восстановить книгу?')" 
-                                        class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm px-5 py-2  rounded-lg">
+                                        class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm px-5 py-2 rounded-lg">
                                     Восстановить
                                 </button>
                             </form>
@@ -103,7 +111,7 @@
                             Удалённых книг пока нет
                         </td>
                     </tr>
-                    @endempty
+                    @endforelse
                 </tbody>
             </table>
         </div>
