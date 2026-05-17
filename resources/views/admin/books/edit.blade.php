@@ -3,13 +3,12 @@
 @section('title', 'Редактировать книгу')
 
 @section('content')
-
-    <div class="max-w-2xl mx-auto px-6">
-        <div class="bg-white border border-[#e3e3e0] rounded-3xl p-8">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6">
+        <div class="bg-white border border-[#e3e3e0] rounded-3xl p-4 sm:p-8">
 
             <div class="mb-6">
-                <h2 class="font-semibold text-3xl text-[#1b1b18]">Редактировать книгу</h2>
-                <p class="text-1xl text-[#706f6c] mt-1 max-w-xl">
+                <h2 class="font-semibold text-2xl sm:text-3xl text-[#1b1b18]">Редактировать книгу</h2>
+                <p class="text-base sm:text-lg text-[#706f6c] mt-1 max-w-xl">
                     Внесите изменения и поделитесь книгой с сообществом.
                 </p>
             </div>
@@ -27,7 +26,7 @@
                 <div class="space-y-6">
 
                     {{-- Название + Автор --}}
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-[#706f6c] mb-2">Название книги *</label>
                             <input type="text" name="title" value="{{ old('title', $book->title) }}" required
@@ -43,7 +42,7 @@
                     </div>
 
                     {{-- Жанр + Год --}}
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-[#706f6c] mb-2">Жанр</label>
                             <select name="genre_id" class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
@@ -63,7 +62,7 @@
                     </div>
 
                     {{-- Город + Улица --}}
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-[#706f6c] mb-2">Город</label>
                             <select name="city_id" class="w-full bg-[#F8F7F4] border border-[#e3e3e0] focus:border-[#1b1b18] rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
@@ -74,7 +73,6 @@
                                 @endforeach
                             </select>
                         </div>
-
                         <div>
                             <label class="block text-sm font-medium text-[#706f6c] mb-2">Где находится книга *</label>
                             <div class="relative">
@@ -102,8 +100,8 @@
                         <p class="text-xs text-[#acaaa3] mt-1">Опишите точное место, чтобы другой пользователь легко нашёл книгу</p>
                     </div>
 
-                    {{-- Состояние книги + Статус (для администратора) --}}
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {{-- Состояние книги + Статус --}}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-[#706f6c] mb-2">Состояние книги</label>
                             <input type="text" name="condition" value="{{ old('condition', $book->condition) }}"
@@ -123,7 +121,7 @@
                         </div>
                     </div>
 
-                    {{-- Обложка (с отображением старой) --}}
+                    {{-- Обложка --}}
                     <div>
                         <label class="block text-sm font-medium text-[#706f6c] mb-2">Обложка книги</label>
                         @if ($book->cover_image_url)
@@ -145,7 +143,7 @@
                     </div>
 
                     {{-- Кнопки --}}
-                    <div class="flex gap-4 pt-4">
+                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
                         <button type="submit"
                                 class="flex-1 bg-[#1b1b18] hover:bg-black text-white font-medium py-3 rounded-2xl transition-colors">
                             Сохранить изменения
@@ -159,7 +157,6 @@
             </form>
         </div>
     </div>
-
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

@@ -22,53 +22,79 @@
     <body class="bg-[#FDFDFC]">
 
    
-    <header class="w-full border-b border-[#e3e3e0] bg-white sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-center justify-between h-16 lg:h-20">
+   <header class="w-full border-b border-[#e3e3e0] bg-white sticky top-0 z-50" x-data="{ open: false }">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex items-center justify-between h-16 lg:h-20">
 
-            
-                <div class="flex items-center">
-                    <img class=" w-[140px]" src="img/logo_1.svg" alt="Logo" class="h-8">
-                </div>
-
-                
-                <nav class="hidden md:flex items-center gap-8 text-sm text-[15px] font-medium">
-                    <a href="#home" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">Главная</a>
-                    <a href="{{ auth()->check() ? route('search-books') : route('register') }}" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">Поиск книг</a>
-                    <a href="{{ auth()->check() ? route('search-books') : route('register') }}" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">Отзывы</a>
-                </nav>
-
-                
-                <div class="flex items-center font-medium gap-4">
-                    @if (Route::has('login'))
-                        @auth
-                            <a href="{{ url('/dashboard') }}" 
-                               class="px-5 py-2 text-sm border border-[#19140035] hover:border-[#1915014a] rounded-sm transition-colors">
-                                Dashboard
-                            </a>
-                        @else
-                            <a href="{{ route('login') }}" 
-                               class="px-5 py-2 text-sm text-[#1b1b18] hover:text-[#727272] transition-colors">
-                                Войти
-                            </a>
-
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}" 
-                                   class="px-6 py-2 text-sm bg-[#1b1b18] text-white hover:bg-black rounded-sm transition-colors">
-                                    Регистрация
-                                </a>
-                            @endif
-                        @endauth
-                    @endif
-                </div>
-
-               
-                <button class="md:hidden text-[#1b1b18]">
-                    ☰
-                </button>
+            <!-- Логотип -->
+            <div class="flex items-center">
+                <img class="w-[140px]" src="img/logo_1.svg" alt="Logo">
             </div>
+
+            <!-- Десктопное меню -->
+            <nav class="hidden md:flex items-center gap-8 text-sm text-[15px] font-medium">
+                <a href="#home" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">Главная</a>
+                <a href="{{ auth()->check() ? route('search-books') : route('register') }}" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">Поиск книг</a>
+                <a href="{{ auth()->check() ? route('search-books') : route('register') }}" class="font-medium text-[#1b1b18] hover:text-[#727272] transition-colors">Отзывы</a>
+            </nav>
+
+            <!-- Кнопки входа / регистрации (десктоп) -->
+            <div class="hidden md:flex items-center font-medium gap-4">
+                @if (Route::has('login'))
+                    @auth
+                        <a href="{{ url('/dashboard') }}" 
+                           class="px-5 py-2 text-sm border border-[#19140035] hover:border-[#1915014a] rounded-sm transition-colors">
+                            Dashboard
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" 
+                           class="px-5 py-2 text-sm text-[#1b1b18] hover:text-[#727272] transition-colors">
+                            Войти
+                        </a>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" 
+                               class="px-6 py-2 text-sm bg-[#1b1b18] text-white hover:bg-black rounded-sm transition-colors">
+                                Регистрация
+                            </a>
+                        @endif
+                    @endauth
+                @endif
+            </div>
+
+            <!-- Бургер-кнопка (только на мобильных) -->
+            <button @click="open = !open" class="md:hidden text-[#1b1b18] text-2xl focus:outline-none">
+                <span x-show="!open">☰</span>
+                <span x-show="open" class="hidden" :class="{'hidden': !open}">✕</span>
+            </button>
         </div>
-    </header>
+    </div>
+
+    <!-- Мобильное меню (выпадающее) -->
+    <div x-show="open" x-transition.duration.300ms class="md:hidden bg-white border-t border-[#e3e3e0] py-4 px-6">
+        <nav class="flex flex-col gap-4">
+            <a href="#home" class="text-[#1b1b18] hover:text-[#727272] font-medium">Главная</a>
+            <a href="{{ auth()->check() ? route('search-books') : route('register') }}" class="text-[#1b1b18] hover:text-[#727272] font-medium">Поиск книг</a>
+            <a href="{{ auth()->check() ? route('search-books') : route('register') }}" class="text-[#1b1b18] hover:text-[#727272] font-medium">Отзывы</a>
+
+            <div class="pt-4 mt-2 border-t border-[#e3e3e0] flex flex-col gap-3">
+                @if (Route::has('login'))
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="px-5 py-2 text-sm border border-[#19140035] hover:border-[#1915014a] rounded-sm transition-colors text-center">
+                            Dashboard
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="text-[#1b1b18] hover:text-[#727272]">Войти</a>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="px-6 py-2 text-sm bg-[#1b1b18] text-white hover:bg-black rounded-sm transition-colors text-center">
+                                Регистрация
+                            </a>
+                        @endif
+                    @endauth
+                @endif
+            </div>
+        </nav>
+    </div>
+</header>
     
 
    
